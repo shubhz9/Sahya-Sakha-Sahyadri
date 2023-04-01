@@ -1,4 +1,4 @@
-public class SSS_EventHomeController {
+global without sharing class SSS_EventHomeController {
     
     private static Map<Integer, String> monthMap = new Map<Integer, String>{
     	1 => 'Jan',  
@@ -16,7 +16,7 @@ public class SSS_EventHomeController {
     };
     
     @AuraEnabled
-    public static EventHomeDTO fetchEventDetails(){
+    public static EventHomeDTO fetchEventDetailsAura(){
         
         EventHomeDTO eventDetails = new EventHomeDTO();
         
