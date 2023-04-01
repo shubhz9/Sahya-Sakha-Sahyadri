@@ -17,7 +17,7 @@
             var state = response.getState();
             console.log('state: ',state);
             if (state === "SUCCESS") {
-                
+                component.set("v.eventsData", response.getReturnValue());
             }
         });
         $A.enqueueAction(action);

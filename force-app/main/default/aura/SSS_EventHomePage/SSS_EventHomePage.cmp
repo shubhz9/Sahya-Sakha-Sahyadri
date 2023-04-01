@@ -9,6 +9,7 @@
     
     <aura:handler name="init" value="{!this}" action="{!c.fetchEventDetails}"/>
     <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="eventsData" type="Object" default="false"/>
     
     <lightning:card title="Events in Sahyadri">
         
