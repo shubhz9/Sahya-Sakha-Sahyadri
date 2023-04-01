@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Beach</fullName>
+                <default>false</default>
+                <label>Beach</label>
+            </value>
+            <value>
+                <fullName>Fort</fullName>
+                <default>false</default>
+                <label>Fort</label>
+            </value>
+            <value>
+                <fullName>Ghats</fullName>
+                <default>false</default>
+                <label>Ghats</label>
+            </value>
+            <value>
+                <fullName>Jungle Trail</fullName>
+                <default>false</default>
+                <label>Jungle Trail</label>
+            </value>
+            <value>
+                <fullName>Peak</fullName>
+                <default>false</default>
+                <label>Peak</label>
+            </value>
+            <value>
+                <fullName>Waterfall</fullName>
+                <default>false</default>
+                <label>Waterfall</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

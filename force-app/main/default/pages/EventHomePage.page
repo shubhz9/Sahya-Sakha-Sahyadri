@@ -1,0 +1,20 @@
+<apex:page showHeader="false">
+    
+    <apex:includeLightning />
+
+    <div id="lightning" />
+
+    <script>
+        $Lightning.use("c:SSS_EventHomePageApp", function() {
+          $Lightning.createComponent("c:SSS_EventHomePage",
+              {},
+              "lightning",
+              function(cmp) {
+                console.log("button was created");
+                // do some stuff
+              }
+          );
+        });
+    </script>
+    
+</apex:page>
