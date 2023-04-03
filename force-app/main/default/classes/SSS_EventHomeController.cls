@@ -24,17 +24,21 @@ global without sharing class SSS_EventHomeController {
                                                   Start_time__c, End_Time__c, Grade__c, Batch_Size__c, 
                                                   	(SELECT id, Location__c, Type__c, Visiting_Date__c 
                                                      FROM Destinations__r) 
-                                                  FROM Trekking_Event__c];
+                                                  FROM Trekking_Event__c 
+                                                  WHERE End_Time__c >= TODAY 
+                                                  ORDER BY Start_time__c];
         
-        eventDetails.weekendWiseTrekEvents = prepareWeekendWiseTrekEvents(trekkingEvents);
+        eventDetails.slotDataMap = prepareWeekendWiseTrekEvents(trekkingEvents, eventDetails);
         
         return eventDetails;
         
     }
     
-    private static Map<String, List<TrekEventsDTO>> prepareWeekendWiseTrekEvents(List<Trekking_Event__c> trekkingEvents){
+    private static Map<String, List<TrekEventsDTO>> prepareWeekendWiseTrekEvents(List<Trekking_Event__c> trekkingEvents, EventHomeDTO eventDetails){
 
         Map<String, List<TrekEventsDTO>> weekendWiseTrekEvents = new Map<String, List<TrekEventsDTO>>();
+        Set<String> slotKeysSet = new Set<String>();
+        Map<String, String> slotNameMap = new Map<String, String>();
         
         for(Trekking_Event__c trekEvent : trekkingEvents){
             
@@ -45,14 +49,24 @@ global without sharing class SSS_EventHomeController {
             trekEventDetails.batchSize = (Integer) trekEvent.Batch_Size__c;
             trekEventDetails.destinations = getEventDestinations(trekEvent.Destinations__r);
             
-            String weekendSlot = trekEvent.Event_slot__c + ' ' + trekEvent.End_Time__c.year();
-            if(weekendWiseTrekEvents.get(weekendSlot) != null){
-                weekendWiseTrekEvents.get(weekendSlot).add(trekEventDetails);
+            String weekendSlot = trekEvent.Event_slot__c.split('-')[0] + '\n' + trekEvent.Event_slot__c.split('-')[1] + ' ' + trekEvent.End_Time__c.year();
+            String slotKey = weekendSlot.remove('-').trim();
+            slotKey = 'SL'+slotKey.trim().remove(' ');
+            slotKeysSet.add(slotKey);
+            slotNameMap.put(slotKey, weekendSlot);
+            
+            if(weekendWiseTrekEvents.get(slotKey) != null){
+                weekendWiseTrekEvents.get(slotKey).add(trekEventDetails);
             }else{
-                weekendWiseTrekEvents.put(weekendSlot, new List<TrekEventsDTO>{trekEventDetails});
+                weekendWiseTrekEvents.put(slotKey, new List<TrekEventsDTO>{trekEventDetails});
             }
             
         }
+        
+        List<String> slotKeys = new List<String>();
+		slotKeys.addAll(slotKeysSet);
+        eventDetails.slotKeys = slotKeys;
+        eventDetails.slotNameMap = slotNameMap;
         
         return weekendWiseTrekEvents;
     
@@ -78,8 +92,36 @@ global without sharing class SSS_EventHomeController {
     
     private static String getEventDate(DateTime startTime, DateTime endTime){
         
-        String eventDate = '';
-        eventDate = startTime.day() + ' - ' + endTime.day() + ' ' + monthMap.get(startTime.month()) + ', ' + endTime.year();
+        String eventDate, startDay, startMonth, startYear, endDay, endMonth, endYear;
+        
+        endDay = '' + endTime.day();
+        endMonth = '' + endTime.month();
+        endYear = String.valueOf(endTime.year());
+        
+        if(String.isNotBlank(endDay) && String.valueOf(startTime.day()) == endDay){
+            startDay = '';
+        }else{
+            startDay = String.valueOf(startTime.day());
+            endDay = ' - ' + endDay;
+        }
+        
+        if(String.isNotBlank(endMonth) && String.valueOf(startTime.month()) == endMonth){
+            startMonth = '';
+            endMonth = ' ' + monthMap.get(endTime.month());
+        }else{
+            startMonth = ' ' + monthMap.get(startTime.month());
+            endMonth = ' ' + monthMap.get(endTime.month());
+        }
+        
+        if(String.isNotBlank(endYear) && String.valueOf(startTime.year()) == endYear){
+            startYear = '';
+            endYear = ', ' + endYear;
+        }else{
+            startYear = ', ' + startTime.year();
+            endYear = ', ' + endYear;
+        }        
+                
+        eventDate = startDay + startMonth + startYear + endDay + endMonth + endYear; 
         
         return eventDate;
     }
@@ -87,7 +129,11 @@ global without sharing class SSS_EventHomeController {
     public class EventHomeDTO{
         
         @AuraEnabled
-        public Map<String, List<TrekEventsDTO>> weekendWiseTrekEvents; 
+        public List<String> slotKeys;
+        @AuraEnabled
+        public Map<String, String> slotNameMap; 
+        @AuraEnabled
+        public Map<String, List<TrekEventsDTO>> slotDataMap; 
         
     }
     
