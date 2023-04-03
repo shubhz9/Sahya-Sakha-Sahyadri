@@ -1,0 +1,26 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="slotKey" type="String" access="public"/>
+    <aura:attribute name="slotDataMap" type="Map" access="public"/>
+    <aura:attribute name="slotData" type="List" access="public"/>
+    
+    <aura:iteration items="{!v.slotData}" var="data">
+        
+        <lightning:card>
+            <aura:set attribute="title">
+                {!data.eventName}
+            </aura:set>
+            <aura:set attribute="actions">
+                {!data.eventDate}
+            </aura:set>
+            &nbsp;&nbsp;&nbsp;&nbsp;{!data.organizationName}
+            <aura:set attribute="footer">
+                <aura:iteration items="{!data.destinations}" var="destination">
+                	<lightning:badge label="{!destination.name}"/>
+                </aura:iteration>
+            </aura:set>
+        </lightning:card>
+    </aura:iteration>
+    
+</aura:component>
