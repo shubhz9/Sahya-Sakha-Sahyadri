@@ -48,5 +48,17 @@
         <members>*</members>
         <name>Flow</name>
     </types>
+    <types>
+		<members>*</members>
+		<name>CustomApplication</name>
+	</types>
+	<types>
+		<members>*</members>
+		<name>CustomApplicationComponent</name>
+	</types>
+    <types>
+		<members>*</members>
+		<name>AppMenu</name>
+	</types>
     <version>56.0</version>
 </Package>
