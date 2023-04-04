@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#5B941F</headerColor>
+        <logo>DURG_BHATKANTI_LOGO</logo>
+        <logoVersion>1</logoVersion>
+        <shouldOverrideOrgTheme>true</shouldOverrideOrgTheme>
+    </brand>
+    <formFactors>Small</formFactors>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <label>Sakha Sahyadri</label>
+    <navType>Standard</navType>
+    <tabs>Event_Dashboard</tabs>
+    <tabs>Trekking_Event__c</tabs>
+    <tabs>standard-Account</tabs>
+    <tabs>Destination__c</tabs>
+    <tabs>standard-Contact</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>Sakha_Sahyadri_UtilityBar</utilityBar>
+</CustomApplication>
