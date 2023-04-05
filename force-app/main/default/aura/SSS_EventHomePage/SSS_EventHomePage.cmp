@@ -2,8 +2,8 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 04-01-2023
-  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  @last modified on  : 04-05-2023
+  @last modified by  : Shubham Raut
 -->
 <aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="SSS_EventHomeController" >
     
@@ -19,7 +19,7 @@
     <lightning:card title="Events in Sahyadri">
         
         <aura:set attribute="actions">
-            <lightning:button label="Add Event" onclick="{! c.launchAddEventFlow}"/>
+            <lightning:button class="slds-button slds-button_success" label="Add Event" onclick="{! c.launchAddEventFlow}"/>
         </aura:set>
                    
         <aura:if isTrue="{!v.isLoading}">
@@ -28,7 +28,7 @@
             
             <aura:set attribute="else">
                 &nbsp;&nbsp;&nbsp;&nbsp;Click on below tabs to check weekend specific treks.<br/>
-                <div class="slds-scrollable_x">
+                <div class="slds-scrollable">
                 <aura:iteration items="{!v.slotKeys}" var="slot">
                     <c:SSS_EventHomeTabs slotKey="{!slot}" slotNameMap="{!v.slotNameMap}"/>
                 </aura:iteration>
@@ -39,7 +39,7 @@
         
     </lightning:card>
     
-    <div class="slds-scrollable_y">
+    <div class="slds-docked-composer__body slds-scrollable">
     {!v.body}
     </div>
     
