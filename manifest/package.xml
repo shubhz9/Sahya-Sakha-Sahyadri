@@ -60,5 +60,9 @@
 		<members>*</members>
 		<name>AppMenu</name>
 	</types>
+    <types>
+        <members>*</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
     <version>56.0</version>
 </Package>
