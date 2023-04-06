@@ -1,20 +1,5 @@
 global without sharing class SSS_EventHomeController {
     
-    private static Map<Integer, String> monthMap = new Map<Integer, String>{
-    	1 => 'Jan',  
-        2 => 'Feb',  
-        3 => 'Mar',  
-        4 => 'Apr',  
-        5 => 'May',  
-        6 => 'June',  
-        7 => 'July',  
-        8 => 'Aug',  
-        9 => 'Sept',  
-        10 => 'Oct',  
-        11 => 'Nov',  
-        12 => 'Dec'    
-    };
-    
     @AuraEnabled
     public static EventHomeDTO fetchEventDetailsAura(){
         
@@ -107,10 +92,10 @@ global without sharing class SSS_EventHomeController {
         
         if(String.isNotBlank(endMonth) && String.valueOf(startTime.month()) == endMonth){
             startMonth = '';
-            endMonth = ' ' + monthMap.get(endTime.month());
+            endMonth = ' ' + SSS_Utility.monthMap.get(endTime.month());
         }else{
-            startMonth = ' ' + monthMap.get(startTime.month());
-            endMonth = ' ' + monthMap.get(endTime.month());
+            startMonth = ' ' + SSS_Utility.monthMap.get(startTime.month());
+            endMonth = ' ' + SSS_Utility.monthMap.get(endTime.month());
         }
         
         if(String.isNotBlank(endYear) && String.valueOf(startTime.year()) == endYear){

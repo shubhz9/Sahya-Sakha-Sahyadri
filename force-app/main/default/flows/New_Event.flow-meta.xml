@@ -1,11 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <actionCalls>
+        <name>Save_Destinations</name>
+        <label>Save Destinations</label>
+        <locationX>798</locationX>
+        <locationY>1934</locationY>
+        <actionName>SSS_NewEventController</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Recurring_Events</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Copy_1_of_ErrorMessage</targetReference>
+        </faultConnector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>destinations</name>
+            <value>
+                <elementReference>Destinations</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>noOfDestinations</name>
+            <value>
+                <elementReference>No_of_Destinations</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
         <name>Assign_1_Destination</name>
         <label>Assign 1 Destination</label>
-        <locationX>50</locationX>
-        <locationY>1286</locationY>
+        <locationX>138</locationX>
+        <locationY>1238</locationY>
         <assignmentItems>
             <assignToReference>Destination.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -42,14 +69,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Create_Destination_records</targetReference>
+            <targetReference>Save_Destinations</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_2_Destination</name>
         <label>Assign 2 Destination</label>
-        <locationX>314</locationX>
-        <locationY>1406</locationY>
+        <locationX>402</locationX>
+        <locationY>1358</locationY>
         <assignmentItems>
             <assignToReference>Destination2.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -86,14 +113,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Create_Destination_records</targetReference>
+            <targetReference>Save_Destinations</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_3_Destination</name>
         <label>Assign 3 Destination</label>
-        <locationX>578</locationX>
-        <locationY>1526</locationY>
+        <locationX>666</locationX>
+        <locationY>1478</locationY>
         <assignmentItems>
             <assignToReference>Destination3.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -130,14 +157,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Create_Destination_records</targetReference>
+            <targetReference>Save_Destinations</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_4_Destination</name>
         <label>Assign 4 Destination</label>
-        <locationX>842</locationX>
-        <locationY>1646</locationY>
+        <locationX>930</locationX>
+        <locationY>1598</locationY>
         <assignmentItems>
             <assignToReference>Destination4.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -174,14 +201,58 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Create_Destination_records</targetReference>
+            <targetReference>Save_Destinations</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_5_Dates</name>
+        <label>Assign 5 Dates</label>
+        <locationX>50</locationX>
+        <locationY>2294</locationY>
+        <assignmentItems>
+            <assignToReference>DateTimeList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Date1</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DateTimeList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Date2</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DateTimeList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Date3</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DateTimeList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Date4</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DateTimeList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Date5</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Finsih_Screen</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_5_Destination</name>
         <label>Assign 5 Destination</label>
-        <locationX>1106</locationX>
-        <locationY>1766</locationY>
+        <locationX>1194</locationX>
+        <locationY>1718</locationY>
         <assignmentItems>
             <assignToReference>Destination5.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -218,14 +289,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Create_Destination_records</targetReference>
+            <targetReference>Save_Destinations</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_New_Event_Values</name>
         <label>Assign New Event Values</label>
-        <locationX>710</locationX>
-        <locationY>686</locationY>
+        <locationX>798</locationX>
+        <locationY>638</locationY>
         <assignmentItems>
             <assignToReference>TrekkingEventRecord.Cost__c</assignToReference>
             <operator>Assign</operator>
@@ -269,34 +340,6 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>Event_Slot_Text</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Select_Weekend_Choice</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Event_Slot_Text</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <stringValue>-</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Event_Slot_Text</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>Select_Month</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>TrekkingEventRecord.Event_slot__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Event_Slot_Text</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
             <assignToReference>TrekkingEventRecord.Batch_Size__c</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -310,8 +353,8 @@
     <assignments>
         <name>Copy_1_of_Assign_1_Destination</name>
         <label>Assign 1 Destination</label>
-        <locationX>314</locationX>
-        <locationY>1286</locationY>
+        <locationX>402</locationX>
+        <locationY>1238</locationY>
         <assignmentItems>
             <assignToReference>Destination.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -354,8 +397,8 @@
     <assignments>
         <name>Copy_1_of_Assign_2_Destination</name>
         <label>Assign 2 Destination</label>
-        <locationX>578</locationX>
-        <locationY>1406</locationY>
+        <locationX>666</locationX>
+        <locationY>1358</locationY>
         <assignmentItems>
             <assignToReference>Destination2.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -398,8 +441,8 @@
     <assignments>
         <name>Copy_1_of_Assign_3_Destination</name>
         <label>Assign 3 Destination</label>
-        <locationX>842</locationX>
-        <locationY>1526</locationY>
+        <locationX>930</locationX>
+        <locationY>1478</locationY>
         <assignmentItems>
             <assignToReference>Destination3.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -442,8 +485,8 @@
     <assignments>
         <name>Copy_1_of_Assign_4_Destination</name>
         <label>Assign 4 Destination</label>
-        <locationX>1106</locationX>
-        <locationY>1646</locationY>
+        <locationX>1194</locationX>
+        <locationY>1598</locationY>
         <assignmentItems>
             <assignToReference>Destination4.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -484,10 +527,47 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Copy_1_of_Assign_5_Dates</name>
+        <label>Assign 4 Dates</label>
+        <locationX>314</locationX>
+        <locationY>2294</locationY>
+        <assignmentItems>
+            <assignToReference>DateTimeList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Date1</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DateTimeList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Date2</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DateTimeList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Date3</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DateTimeList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Date4</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Finsih_Screen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Copy_2_of_Assign_1_Destination</name>
         <label>Assign 1 Destination</label>
-        <locationX>578</locationX>
-        <locationY>1286</locationY>
+        <locationX>666</locationX>
+        <locationY>1238</locationY>
         <assignmentItems>
             <assignToReference>Destination.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -530,8 +610,8 @@
     <assignments>
         <name>Copy_2_of_Assign_2_Destination</name>
         <label>Assign 2 Destination</label>
-        <locationX>842</locationX>
-        <locationY>1406</locationY>
+        <locationX>930</locationX>
+        <locationY>1358</locationY>
         <assignmentItems>
             <assignToReference>Destination2.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -574,8 +654,8 @@
     <assignments>
         <name>Copy_2_of_Assign_3_Destination</name>
         <label>Assign 3 Destination</label>
-        <locationX>1106</locationX>
-        <locationY>1526</locationY>
+        <locationX>1194</locationX>
+        <locationY>1478</locationY>
         <assignmentItems>
             <assignToReference>Destination3.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -616,10 +696,40 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Copy_2_of_Assign_5_Dates</name>
+        <label>Assign 3 Dates</label>
+        <locationX>578</locationX>
+        <locationY>2294</locationY>
+        <assignmentItems>
+            <assignToReference>DateTimeList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Date1</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DateTimeList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Date2</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DateTimeList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Date3</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Finsih_Screen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Copy_3_of_Assign_1_Destination</name>
         <label>Assign 1 Destination</label>
-        <locationX>842</locationX>
-        <locationY>1286</locationY>
+        <locationX>930</locationX>
+        <locationY>1238</locationY>
         <assignmentItems>
             <assignToReference>Destination.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -662,8 +772,8 @@
     <assignments>
         <name>Copy_3_of_Assign_2_Destination</name>
         <label>Assign 2 Destination</label>
-        <locationX>1106</locationX>
-        <locationY>1406</locationY>
+        <locationX>1194</locationX>
+        <locationY>1358</locationY>
         <assignmentItems>
             <assignToReference>Destination2.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -704,10 +814,33 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Copy_3_of_Assign_5_Dates</name>
+        <label>Assign 2 Dates</label>
+        <locationX>842</locationX>
+        <locationY>2294</locationY>
+        <assignmentItems>
+            <assignToReference>DateTimeList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Date1</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DateTimeList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Date2</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Finsih_Screen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Copy_4_of_Assign_1_Destination</name>
         <label>Assign 1 Destination</label>
-        <locationX>1106</locationX>
-        <locationY>1286</locationY>
+        <locationX>1194</locationX>
+        <locationY>1238</locationY>
         <assignmentItems>
             <assignToReference>Destination.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -745,6 +878,22 @@
         </assignmentItems>
         <connector>
             <targetReference>Copy_3_of_Assign_2_Destination</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Copy_4_of_Assign_5_Dates</name>
+        <label>Assign 1 Dates</label>
+        <locationX>1106</locationX>
+        <locationY>2294</locationY>
+        <assignmentItems>
+            <assignToReference>DateTimeList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Date1</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Finsih_Screen</targetReference>
         </connector>
     </assignments>
     <choices>
@@ -852,6 +1001,14 @@
         </value>
     </choices>
     <choices>
+        <name>NO</name>
+        <choiceText>No</choiceText>
+        <dataType>Boolean</dataType>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </choices>
+    <choices>
         <name>Nov</name>
         <choiceText>Nov</choiceText>
         <dataType>String</dataType>
@@ -931,14 +1088,210 @@
             <stringValue>5th Weekend</stringValue>
         </value>
     </choices>
+    <choices>
+        <name>YES</name>
+        <choiceText>Yes</choiceText>
+        <dataType>Boolean</dataType>
+        <value>
+            <booleanValue>true</booleanValue>
+        </value>
+    </choices>
+    <decisions>
+        <name>Is_Recurring_Selected</name>
+        <label>Is Recurring Selected?</label>
+        <locationX>798</locationX>
+        <locationY>2174</locationY>
+        <defaultConnector>
+            <targetReference>Finsih_Screen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Five_Dates</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Do_you_want_to_add_Same_Event_with_Different_Date</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>YES</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Date5</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Date4</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Date3</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Date2</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Date1</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_5_Dates</targetReference>
+            </connector>
+            <label>Five Dates</label>
+        </rules>
+        <rules>
+            <name>Four_Dates</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Do_you_want_to_add_Same_Event_with_Different_Date</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>YES</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Date4</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Date3</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Date2</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Date1</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_1_of_Assign_5_Dates</targetReference>
+            </connector>
+            <label>Four Dates</label>
+        </rules>
+        <rules>
+            <name>Three_Dates</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Do_you_want_to_add_Same_Event_with_Different_Date</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <elementReference>YES</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Date3</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Date2</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Date1</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_2_of_Assign_5_Dates</targetReference>
+            </connector>
+            <label>Three Dates</label>
+        </rules>
+        <rules>
+            <name>Two_Dates</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Do_you_want_to_add_Same_Event_with_Different_Date</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>YES</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Date2</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_3_of_Assign_5_Dates</targetReference>
+            </connector>
+            <label>Two Dates</label>
+        </rules>
+        <rules>
+            <name>First_Date</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Do_you_want_to_add_Same_Event_with_Different_Date</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>YES</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_4_of_Assign_5_Dates</targetReference>
+            </connector>
+            <label>First Date</label>
+        </rules>
+        <rules>
+            <name>No_D</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Do_you_want_to_add_Same_Event_with_Different_Date</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>NO</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Finsih_Screen</targetReference>
+            </connector>
+            <label>No</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Number_of_Destinations</name>
         <label>Number of Destinations</label>
-        <locationX>710</locationX>
-        <locationY>1166</locationY>
-        <defaultConnector>
-            <targetReference>Create_Destination_records</targetReference>
-        </defaultConnector>
+        <locationX>798</locationX>
+        <locationY>1118</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>X1</name>
@@ -1019,9 +1372,10 @@
     <decisions>
         <name>Valid_Password</name>
         <label>Valid Password</label>
-        <locationX>1524</locationX>
-        <locationY>446</locationY>
+        <locationX>1656</locationX>
+        <locationY>398</locationY>
         <defaultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>Authentication_Screen</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -1086,7 +1440,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>FREE_FORM_CANVAS</stringValue>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -1097,36 +1451,24 @@
     </processMetadataValues>
     <processType>Flow</processType>
     <recordCreates>
-        <name>Create_Destination_records</name>
-        <label>Create Destinations</label>
-        <locationX>710</locationX>
-        <locationY>1982</locationY>
-        <connector>
-            <targetReference>Finsih_Screen</targetReference>
-        </connector>
-        <faultConnector>
-            <targetReference>ErrorMessage</targetReference>
-        </faultConnector>
-        <inputReference>Destinations</inputReference>
-    </recordCreates>
-    <recordCreates>
         <name>Create_New_EVent</name>
         <label>Create New Event</label>
-        <locationX>710</locationX>
-        <locationY>806</locationY>
+        <locationX>798</locationX>
+        <locationY>758</locationY>
         <connector>
             <targetReference>Get_Newly_Created_Event</targetReference>
         </connector>
         <faultConnector>
-            <targetReference>ErrorMessage</targetReference>
+            <isGoTo>true</isGoTo>
+            <targetReference>Copy_1_of_ErrorMessage</targetReference>
         </faultConnector>
         <inputReference>TrekkingEventRecord</inputReference>
     </recordCreates>
     <recordLookups>
         <name>Get_Credentials</name>
         <label>Get Credentials</label>
-        <locationX>1524</locationX>
-        <locationY>206</locationY>
+        <locationX>1656</locationX>
+        <locationY>158</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Authentication_Screen</targetReference>
@@ -1138,14 +1480,15 @@
     <recordLookups>
         <name>Get_Newly_Created_Event</name>
         <label>Get Newly Created Event</label>
-        <locationX>710</locationX>
-        <locationY>926</locationY>
+        <locationX>798</locationX>
+        <locationY>878</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Destinations</targetReference>
         </connector>
         <faultConnector>
-            <targetReference>ErrorMessage</targetReference>
+            <isGoTo>true</isGoTo>
+            <targetReference>Copy_1_of_ErrorMessage</targetReference>
         </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1177,8 +1520,8 @@
     <screens>
         <name>Authentication_Screen</name>
         <label>Authentication Screen</label>
-        <locationX>1524</locationX>
-        <locationY>326</locationY>
+        <locationX>1656</locationX>
+        <locationY>278</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1199,10 +1542,26 @@
         <showHeader>true</showHeader>
     </screens>
     <screens>
+        <name>Copy_1_of_ErrorMessage</name>
+        <label>Copy 1 of ErrorMessage</label>
+        <locationX>1722</locationX>
+        <locationY>2054</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Copy_1_of_ErrorMessageText</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(250, 7, 7);&quot;&gt;Something went wrong..!!!&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>Create_Destinations</name>
         <label>Create Destinations</label>
-        <locationX>710</locationX>
-        <locationY>1046</locationY>
+        <locationX>798</locationX>
+        <locationY>998</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1473,30 +1832,15 @@
         <showHeader>true</showHeader>
     </screens>
     <screens>
-        <name>ErrorMessage</name>
-        <label>ErrorMessage</label>
-        <locationX>1546</locationX>
-        <locationY>2102</locationY>
-        <allowBack>false</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <fields>
-            <name>ErrorMessageText</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(250, 7, 7);&quot;&gt;Something went wrong..!!!&lt;/span&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
         <name>Finsih_Screen</name>
         <label>Finsih Screen</label>
-        <locationX>172</locationX>
-        <locationY>1070</locationY>
+        <locationX>798</locationX>
+        <locationY>2510</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>New_Event</targetReference>
         </connector>
         <fields>
@@ -1511,8 +1855,8 @@
     <screens>
         <name>New_Event</name>
         <label>New Event</label>
-        <locationX>710</locationX>
-        <locationY>566</locationY>
+        <locationX>798</locationX>
+        <locationY>518</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1525,18 +1869,6 @@
             <fields>
                 <name>New_Event_Section1_Column1</name>
                 <fieldType>Region</fieldType>
-                <fields>
-                    <name>Select_Weekend_Choice</name>
-                    <choiceReferences>Weekend1</choiceReferences>
-                    <choiceReferences>Weekend2</choiceReferences>
-                    <choiceReferences>Weekend3</choiceReferences>
-                    <choiceReferences>Weekend4</choiceReferences>
-                    <choiceReferences>Weekend5</choiceReferences>
-                    <dataType>String</dataType>
-                    <fieldText>Select Weekend</fieldText>
-                    <fieldType>DropdownBox</fieldType>
-                    <isRequired>true</isRequired>
-                </fields>
                 <fields>
                     <name>Group_Name</name>
                     <choiceReferences>GroupName</choiceReferences>
@@ -1567,7 +1899,7 @@
                     <name>Number_of_Seats</name>
                     <dataType>Number</dataType>
                     <defaultValue>
-                        <numberValue>1.0</numberValue>
+                        <numberValue>20.0</numberValue>
                     </defaultValue>
                     <fieldText>Number of Seats</fieldText>
                     <fieldType>InputField</fieldType>
@@ -1585,25 +1917,6 @@
             <fields>
                 <name>New_Event_Section1_Column2</name>
                 <fieldType>Region</fieldType>
-                <fields>
-                    <name>Select_Month</name>
-                    <choiceReferences>Jan</choiceReferences>
-                    <choiceReferences>Feb</choiceReferences>
-                    <choiceReferences>Mar</choiceReferences>
-                    <choiceReferences>Apr</choiceReferences>
-                    <choiceReferences>May</choiceReferences>
-                    <choiceReferences>Jun</choiceReferences>
-                    <choiceReferences>Jul</choiceReferences>
-                    <choiceReferences>Aug</choiceReferences>
-                    <choiceReferences>Sept</choiceReferences>
-                    <choiceReferences>Oct</choiceReferences>
-                    <choiceReferences>Nov</choiceReferences>
-                    <choiceReferences>Dec</choiceReferences>
-                    <dataType>String</dataType>
-                    <fieldText>Select Month</fieldText>
-                    <fieldType>DropdownBox</fieldType>
-                    <isRequired>true</isRequired>
-                </fields>
                 <fields>
                     <name>Event_Name</name>
                     <dataType>String</dataType>
@@ -1657,14 +1970,107 @@
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
+    <screens>
+        <name>Recurring_Events</name>
+        <label>Recurring Events</label>
+        <locationX>798</locationX>
+        <locationY>2054</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Is_Recurring_Selected</targetReference>
+        </connector>
+        <fields>
+            <name>Do_you_want_to_add_Same_Event_with_Different_Date</name>
+            <choiceReferences>YES</choiceReferences>
+            <choiceReferences>NO</choiceReferences>
+            <dataType>Boolean</dataType>
+            <defaultSelectedChoiceReference>NO</defaultSelectedChoiceReference>
+            <fieldText>Do you want to add Same Event with Different Date?</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Recurring_Events_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Recurring_Events_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Date1</name>
+                    <dataType>DateTime</dataType>
+                    <fieldText>Please Select Date</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>Date2</name>
+                    <dataType>DateTime</dataType>
+                    <fieldText>Please Select Date</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>Date3</name>
+                    <dataType>DateTime</dataType>
+                    <fieldText>Please Select Date</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>Date4</name>
+                    <dataType>DateTime</dataType>
+                    <fieldText>Please Select Date</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>Date5</name>
+                    <dataType>DateTime</dataType>
+                    <fieldText>Please Select Date</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Do_you_want_to_add_Same_Event_with_Different_Date</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
     <start>
-        <locationX>1398</locationX>
-        <locationY>48</locationY>
+        <locationX>1530</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>Get_Credentials</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
+    <variables>
+        <name>DateTimeList</name>
+        <dataType>DateTime</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>Destination</name>
         <dataType>SObject</dataType>

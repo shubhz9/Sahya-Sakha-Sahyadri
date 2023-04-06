@@ -40,6 +40,11 @@
                 <default>false</default>
                 <label>Waterfall</label>
             </value>
+            <value>
+                <fullName>Valley</fullName>
+                <default>false</default>
+                <label>Valley</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

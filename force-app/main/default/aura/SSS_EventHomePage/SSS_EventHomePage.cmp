@@ -15,7 +15,7 @@
     <aura:attribute name="slotDataMap" type="Map"/>
     
     <aura:handler name="TabClickEvent" event="c:SSS_TabClickEvent" action="{!c.handleTabClickEvent}"/>
-    
+    <div>
     <lightning:card title="Events in Sahyadri">
         
         <aura:set attribute="actions">
@@ -23,23 +23,22 @@
         </aura:set>
                    
         <aura:if isTrue="{!v.isLoading}">
-            
             <lightning:spinner alternativeText="Loading" size="small" />
             
             <aura:set attribute="else">
+            	
                 &nbsp;&nbsp;&nbsp;&nbsp;Click on below tabs to check weekend specific treks.<br/>
-                <div class="slds-scrollable">
-                <aura:iteration items="{!v.slotKeys}" var="slot">
-                    <c:SSS_EventHomeTabs slotKey="{!slot}" slotNameMap="{!v.slotNameMap}"/>
-                </aura:iteration>
-                </div>
                 
+                <div class="slds-scrollable_x" style="height:5rem;">
+                    <aura:iteration items="{!v.slotKeys}" var="slot">
+                        <c:SSS_EventHomeTabs slotKey="{!slot}" slotNameMap="{!v.slotNameMap}"/>
+                    </aura:iteration>
+                </div>
             </aura:set>
         </aura:if>
         
     </lightning:card>
-    
-    <div class="slds-docked-composer__body slds-scrollable">
+    <div class="slds-scrollable" style="height:30rem">
     {!v.body}
     </div>
     
@@ -71,5 +70,5 @@
         </section>
         <div class="slds-backdrop slds-backdrop_open"></div>
     </aura:if>
-	
+    </div>
 </aura:component>
