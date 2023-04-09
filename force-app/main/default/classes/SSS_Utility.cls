@@ -1,4 +1,4 @@
-public class SSS_Utility {
+public without sharing class SSS_Utility {
 
     public static Map<Integer, String> monthMap = new Map<Integer, String>{
     	1 => 'Jan',  

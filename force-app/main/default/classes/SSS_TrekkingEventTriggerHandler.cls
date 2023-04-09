@@ -1,4 +1,4 @@
-public class SSS_TrekkingEventTriggerHandler {
+public without sharing class SSS_TrekkingEventTriggerHandler {
 
     public static void runBeforeTrigger(){
         

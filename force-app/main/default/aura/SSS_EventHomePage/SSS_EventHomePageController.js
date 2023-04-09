@@ -2,7 +2,7 @@
 	launchAddEventFlow : function(component, event, helper) {
         component.set("v.isModalOpen", true);
 		var flow = component.find("flowData");
-    	flow.startFlow("New_Event");
+    	flow.startFlow("Create_Trekking_Event");
 	},
     closeModel : function(component, event, helper) {
 		component.set("v.isModalOpen", false);

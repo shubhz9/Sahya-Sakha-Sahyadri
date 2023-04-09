@@ -38,7 +38,7 @@
         </aura:if>
         
     </lightning:card>
-    <div class="slds-scrollable" style="height:30rem">
+    <div class="slds-scrollable" style="height:25rem">
     {!v.body}
     </div>
     

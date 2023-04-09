@@ -12,16 +12,20 @@
 global without sharing class SSS_NewEventController {  
     @InvocableMethod(label='Save Destinations' description='Used for saving destinations')
     global static void saveDestination(List<NewEventWrapper> destinationWrapper) {
-        if(destinationWrapper != null && !destinationWrapper.isEmpty()){
-            if(destinationWrapper[0].noOfDestinations != 0 && destinationWrapper[0].noOfDestinations != destinationWrapper[0].destinations.size()){
+        if(destinationWrapper != null && !destinationWrapper.isEmpty() && destinationWrapper[0].trekkingEvent != null){
+            
+            Trekking_Event__c newTrekkingEvent = destinationWrapper[0].trekkingEvent;
+            Database.insert(new List<sObject>{newTrekkingEvent});
+            
+            destinationWrapper[0].currentEventId = newTrekkingEvent.id;
+            
+            if(destinationWrapper[0].noOfDestinations != 0){
                 List<Destination__c> finalList = new List<Destination__c>();
                 for(Destination__c dest: destinationWrapper[0].destinations){
+                    dest.Trekking_Event__c = newTrekkingEvent.Id;
                     finalList.add(dest);
                 }
                 Database.insert(finalList, false);
-            }else if(destinationWrapper[0].noOfDestinations != 0){
-                List<Database.SaveResult> saveResults = Database.insert(destinationWrapper[0].destinations, false);
-            
             }
             
             if(destinationWrapper[0].futureBatcheDates != null && destinationWrapper[0].currentEventId != null){
@@ -32,11 +36,13 @@ global without sharing class SSS_NewEventController {
         
     }
     
-    public static void createFutureBatchesForEvent(Id currentEventId, List<DateTime> futureBatcheDates){
+    public static void createFutureBatchesForEvent(Id currentEventId, List<Date> futureBatcheDates){
         
         List<Trekking_Event__c> futureEvents = new List<Trekking_Event__c>();
         List<Destination__c> futureEventDestinations = new List<Destination__c>();
         Map<Integer, Trekking_Event__c> nextBatchEventTimeMap = new Map<Integer, Trekking_Event__c>();
+        
+        System.debug('c id : ' + currentEventId);
         
         Trekking_Event__c mainEvent = [SELECT id, name, Event_slot__c, createdDate, Organization__r.name, 
                                            Start_time__c, End_Time__c, Grade__c, Batch_Size__c, cost__c, 
@@ -48,10 +54,9 @@ global without sharing class SSS_NewEventController {
         
         Date mainEventStartDate = Date.newInstance(mainEvent.Start_time__c.yearGmt(), mainEvent.Start_time__c.monthGmt(), mainEvent.Start_time__c.dayGmt());
         
-        for(DateTime futureBatchDT : futureBatcheDates){
+        for(Date futureBatchDT : futureBatcheDates){
             
-            Date futureBatchDate = Date.newInstance(futureBatchDT.year(), futureBatchDT.month(), futureBatchDT.day());
-           	Integer daysDiffBetwMainEvent = mainEventStartDate.daysBetween(futureBatchDate);
+           	Integer daysDiffBetwMainEvent = mainEventStartDate.daysBetween(futureBatchDT);
             
             Trekking_Event__c eventFutureBatch = mainEvent.clone();
             eventFutureBatch.id = null;
@@ -85,9 +90,11 @@ global without sharing class SSS_NewEventController {
         @InvocableVariable
         global Integer noOfDestinations;
         @InvocableVariable
+        global Trekking_Event__c trekkingEvent;
+        @InvocableVariable
         global List<Destination__c> destinations;
         @InvocableVariable
-        global List<DateTime> futureBatcheDates;
+        global List<Date> futureBatcheDates;
         @InvocableVariable
         global id currentEventId;
     }
