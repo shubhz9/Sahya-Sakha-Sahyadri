@@ -3,15 +3,15 @@
     <actionCalls>
         <name>Save_Recurring_Events</name>
         <label>Save Recurring Events</label>
-        <locationX>721</locationX>
-        <locationY>2423</locationY>
+        <locationX>1124</locationX>
+        <locationY>2004</locationY>
         <actionName>SSS_NewEventController</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Finsih_Screen</targetReference>
+            <targetReference>Check_Apex_Errors_2</targetReference>
         </connector>
         <faultConnector>
-            <targetReference>Error_Message</targetReference>
+            <targetReference>Apex_Action_Error</targetReference>
         </faultConnector>
         <flowTransactionModel>NewTransaction</flowTransactionModel>
         <inputParameters>
@@ -38,29 +38,120 @@
                 <elementReference>TrekkingEventRecord</elementReference>
             </value>
         </inputParameters>
+        <inputParameters>
+            <name>validateEventData</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>ApexErrorMessage</assignToReference>
+            <name>errorMsg</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>ErrorScreenNumber</assignToReference>
+            <name>errorScreenNumber</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>ApexActionStatus</assignToReference>
+            <name>status</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Validate_New_Event_Creation</name>
+        <label>Validate New Event Creation</label>
+        <locationX>582</locationX>
+        <locationY>1790</locationY>
+        <actionName>SSS_NewEventController</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Check_for_apex_errors</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Apex_Action_Error</targetReference>
+        </faultConnector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>destinations</name>
+            <value>
+                <elementReference>Destinations</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>trekkingEvent</name>
+            <value>
+                <elementReference>TrekkingEventRecord</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>validateEventData</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>ApexErrorMessage</assignToReference>
+            <name>errorMsg</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>ErrorScreenNumber</assignToReference>
+            <name>errorScreenNumber</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>ApexActionStatus</assignToReference>
+            <name>status</name>
+        </outputParameters>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
-        <name>Add_Upcoming_Dates</name>
-        <label>Add Upcoming Dates</label>
-        <locationX>420</locationX>
-        <locationY>2100</locationY>
+        <name>Add_Future_Dates</name>
+        <label>Add Future Dates</label>
+        <locationX>939</locationX>
+        <locationY>2006</locationY>
         <assignmentItems>
             <assignToReference>FutureBatchDates</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>Upcoming_Visiting_Date</elementReference>
+                <elementReference>Future_Batch_Date_1</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FutureBatchDates</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Future_Batch_Date_2</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FutureBatchDates</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Future_Batch_Date_3</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FutureBatchDates</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Future_Batch_Date_4</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FutureBatchDates</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Future_Batch_Date_5</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Recurring_Events</targetReference>
+            <targetReference>Save_Recurring_Events</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_1_Destination</name>
         <label>Assign 1 Destination</label>
-        <locationX>153</locationX>
-        <locationY>1636</locationY>
+        <locationX>210</locationX>
+        <locationY>1671</locationY>
         <assignmentItems>
             <assignToReference>Destination.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -90,14 +181,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Recurring_Events</targetReference>
+            <targetReference>Validate_New_Event_Creation</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_2_Destination</name>
         <label>Assign 2 Destination</label>
-        <locationX>402</locationX>
-        <locationY>1494</locationY>
+        <locationX>462</locationX>
+        <locationY>1519</locationY>
         <assignmentItems>
             <assignToReference>Destination2.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -127,13 +218,13 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Recurring_Events</targetReference>
+            <targetReference>Validate_New_Event_Creation</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_3_Destination</name>
         <label>Assign 3 Destination</label>
-        <locationX>666</locationX>
+        <locationX>723</locationX>
         <locationY>1526</locationY>
         <assignmentItems>
             <assignToReference>Destination3.Location__c</assignToReference>
@@ -164,13 +255,13 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Recurring_Events</targetReference>
+            <targetReference>Validate_New_Event_Creation</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_4_Destination</name>
         <label>Assign 4 Destination</label>
-        <locationX>933</locationX>
+        <locationX>985</locationX>
         <locationY>1666</locationY>
         <assignmentItems>
             <assignToReference>Destination4.Location__c</assignToReference>
@@ -201,14 +292,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Recurring_Events</targetReference>
+            <targetReference>Validate_New_Event_Creation</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_5_Destination</name>
         <label>Assign 5 Destination</label>
-        <locationX>1194</locationX>
-        <locationY>1766</locationY>
+        <locationX>1251</locationX>
+        <locationY>1789</locationY>
         <assignmentItems>
             <assignToReference>Destination5.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -238,14 +329,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Recurring_Events</targetReference>
+            <targetReference>Validate_New_Event_Creation</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_New_Event_Values</name>
         <label>Assign New Event Values</label>
-        <locationX>556</locationX>
-        <locationY>447</locationY>
+        <locationX>61</locationX>
+        <locationY>663</locationY>
         <assignmentItems>
             <assignToReference>TrekkingEventRecord.Cost__c</assignToReference>
             <operator>Assign</operator>
@@ -299,6 +390,10 @@
             <assignToReference>TrekkingEventRecord.Id</assignToReference>
             <operator>Assign</operator>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Destinations</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
         <connector>
             <targetReference>Create_Destinations</targetReference>
         </connector>
@@ -306,8 +401,8 @@
     <assignments>
         <name>Copy_1_of_Assign_1_Destination</name>
         <label>Assign 1 Destination</label>
-        <locationX>402</locationX>
-        <locationY>1286</locationY>
+        <locationX>462</locationX>
+        <locationY>1169</locationY>
         <assignmentItems>
             <assignToReference>Destination.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -343,7 +438,7 @@
     <assignments>
         <name>Copy_1_of_Assign_2_Destination</name>
         <label>Assign 2 Destination</label>
-        <locationX>666</locationX>
+        <locationX>723</locationX>
         <locationY>1406</locationY>
         <assignmentItems>
             <assignToReference>Destination2.Location__c</assignToReference>
@@ -380,8 +475,8 @@
     <assignments>
         <name>Copy_1_of_Assign_3_Destination</name>
         <label>Assign 3 Destination</label>
-        <locationX>930</locationX>
-        <locationY>1526</locationY>
+        <locationX>987</locationX>
+        <locationY>1516</locationY>
         <assignmentItems>
             <assignToReference>Destination3.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -417,8 +512,8 @@
     <assignments>
         <name>Copy_1_of_Assign_4_Destination</name>
         <label>Assign 4 Destination</label>
-        <locationX>1194</locationX>
-        <locationY>1646</locationY>
+        <locationX>1251</locationX>
+        <locationY>1594</locationY>
         <assignmentItems>
             <assignToReference>Destination4.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -454,7 +549,7 @@
     <assignments>
         <name>Copy_2_of_Assign_1_Destination</name>
         <label>Assign 1 Destination</label>
-        <locationX>666</locationX>
+        <locationX>723</locationX>
         <locationY>1286</locationY>
         <assignmentItems>
             <assignToReference>Destination.Location__c</assignToReference>
@@ -491,8 +586,8 @@
     <assignments>
         <name>Copy_2_of_Assign_2_Destination</name>
         <label>Assign 2 Destination</label>
-        <locationX>930</locationX>
-        <locationY>1406</locationY>
+        <locationX>985</locationX>
+        <locationY>1347</locationY>
         <assignmentItems>
             <assignToReference>Destination2.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -528,8 +623,8 @@
     <assignments>
         <name>Copy_2_of_Assign_3_Destination</name>
         <label>Assign 3 Destination</label>
-        <locationX>1194</locationX>
-        <locationY>1526</locationY>
+        <locationX>1251</locationX>
+        <locationY>1421</locationY>
         <assignmentItems>
             <assignToReference>Destination3.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -565,8 +660,8 @@
     <assignments>
         <name>Copy_3_of_Assign_1_Destination</name>
         <label>Assign 1 Destination</label>
-        <locationX>930</locationX>
-        <locationY>1286</locationY>
+        <locationX>988</locationX>
+        <locationY>1161</locationY>
         <assignmentItems>
             <assignToReference>Destination.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -602,8 +697,8 @@
     <assignments>
         <name>Copy_3_of_Assign_2_Destination</name>
         <label>Assign 2 Destination</label>
-        <locationX>1194</locationX>
-        <locationY>1406</locationY>
+        <locationX>1251</locationX>
+        <locationY>1226</locationY>
         <assignmentItems>
             <assignToReference>Destination2.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -639,8 +734,8 @@
     <assignments>
         <name>Copy_4_of_Assign_1_Destination</name>
         <label>Assign 1 Destination</label>
-        <locationX>1194</locationX>
-        <locationY>1286</locationY>
+        <locationX>1252</locationX>
+        <locationY>989</locationY>
         <assignmentItems>
             <assignToReference>Destination.Location__c</assignToReference>
             <operator>Assign</operator>
@@ -674,10 +769,23 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Initiate_Future_Batch_Dates_list</name>
+        <label>Initiate Future Batch Dates list</label>
+        <locationX>578</locationX>
+        <locationY>2010</locationY>
+        <assignmentItems>
+            <assignToReference>FutureBatchDates</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <connector>
+            <targetReference>Recurring_Events</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Reset_Input_Variables</name>
         <label>Reset Input Variables</label>
-        <locationX>1618</locationX>
-        <locationY>1531</locationY>
+        <locationX>1428</locationX>
+        <locationY>1524</locationY>
         <assignmentItems>
             <assignToReference>DateTimeList</assignToReference>
             <operator>Assign</operator>
@@ -923,50 +1031,60 @@
         </value>
     </choices>
     <decisions>
-        <name>Is_Recurring_Selected</name>
-        <label>Is Recurring Selected?</label>
-        <locationX>715</locationX>
-        <locationY>2205</locationY>
+        <name>Check_Apex_Errors_2</name>
+        <label>Check Apex Errors 2</label>
+        <locationX>858</locationX>
+        <locationY>2236</locationY>
         <defaultConnector>
             <targetReference>Finsih_Screen</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Default outcome</defaultConnectorLabel>
+        <defaultConnectorLabel>No Errors</defaultConnectorLabel>
         <rules>
-            <name>No_D</name>
+            <name>Has_Errors_2</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Do_you_want_to_add_Same_Event_with_Different_Date</leftValueReference>
-                <operator>EqualTo</operator>
+                <leftValueReference>ApexErrorMessage</leftValueReference>
+                <operator>IsNull</operator>
                 <rightValue>
-                    <elementReference>NO</elementReference>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Save_Recurring_Events</targetReference>
+                <targetReference>Initiate_Future_Batch_Dates_list</targetReference>
             </connector>
-            <label>No</label>
+            <label>Has Errors</label>
         </rules>
+    </decisions>
+    <decisions>
+        <name>Check_for_apex_errors</name>
+        <label>Check for apex errors</label>
+        <locationX>50</locationX>
+        <locationY>1907</locationY>
+        <defaultConnector>
+            <targetReference>Initiate_Future_Batch_Dates_list</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Errors</defaultConnectorLabel>
         <rules>
-            <name>Yes_multiple_batches</name>
+            <name>Has_Errors</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Do_you_want_to_add_Same_Event_with_Different_Date</leftValueReference>
-                <operator>EqualTo</operator>
+                <leftValueReference>ApexErrorMessage</leftValueReference>
+                <operator>IsNull</operator>
                 <rightValue>
-                    <elementReference>YES</elementReference>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Add_future_batches_of_event</targetReference>
+                <targetReference>Assign_New_Event_Values</targetReference>
             </connector>
-            <label>Yes</label>
+            <label>Has Errors</label>
         </rules>
     </decisions>
     <decisions>
         <name>Number_of_Destinations</name>
         <label>Number of Destinations</label>
-        <locationX>649</locationX>
-        <locationY>999</locationY>
+        <locationX>714</locationX>
+        <locationY>997</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>X1</name>
@@ -1047,8 +1165,8 @@
     <decisions>
         <name>Valid_Password</name>
         <label>Valid Password</label>
-        <locationX>1656</locationX>
-        <locationY>446</locationY>
+        <locationX>1713</locationX>
+        <locationY>656</locationY>
         <defaultConnector>
             <targetReference>Authentication_Screen</targetReference>
         </defaultConnector>
@@ -1127,8 +1245,8 @@
     <recordLookups>
         <name>Get_Credentials</name>
         <label>Get Credentials</label>
-        <locationX>1656</locationX>
-        <locationY>206</locationY>
+        <locationX>1713</locationX>
+        <locationY>416</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Authentication_Screen</targetReference>
@@ -1139,38 +1257,29 @@
     </recordLookups>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <screens>
-        <name>Add_future_batches_of_event</name>
-        <label>Add future batches of event</label>
-        <locationX>419</locationX>
-        <locationY>2338</locationY>
-        <allowBack>true</allowBack>
+        <name>Apex_Action_Error</name>
+        <label>Apex Action Error</label>
+        <locationX>1567</locationX>
+        <locationY>1904</locationY>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
-        <backButtonLabel>Cancel</backButtonLabel>
         <connector>
-            <targetReference>Add_Upcoming_Dates</targetReference>
+            <targetReference>Reset_Input_Variables</targetReference>
         </connector>
         <fields>
-            <name>Enter_Upcoming_Visit_Date</name>
-            <fieldText>&lt;p&gt;Enter upcoming visiting date&lt;/p&gt;</fieldText>
+            <name>Apex_Action_Error_Title</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;Something went wrong!!! Please refresh and try again after some time.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;{!$Flow.FaultMessage}&lt;/span&gt;&lt;span style=&quot;color: rgb(255, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;{!ApexErrorMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
-        <fields>
-            <name>Upcoming_Visiting_Date</name>
-            <dataType>Date</dataType>
-            <fieldText>Upcoming Visiting Date</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>true</isRequired>
-        </fields>
-        <nextOrFinishButtonLabel>Add</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <screens>
         <name>Authentication_Screen</name>
         <label>Authentication Screen</label>
-        <locationX>1656</locationX>
-        <locationY>326</locationY>
+        <locationX>1713</locationX>
+        <locationY>536</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1193,14 +1302,26 @@
     <screens>
         <name>Create_Destinations</name>
         <label>Create Destinations</label>
-        <locationX>548</locationX>
-        <locationY>730</locationY>
+        <locationX>723</locationX>
+        <locationY>841</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
             <targetReference>Number_of_Destinations</targetReference>
         </connector>
+        <fields>
+            <name>Screen_1_2_Error_Message</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;Please resolve following issues before proceeding.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;{!ApexErrorMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>ApexErrorMessage</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                </conditions>
+            </visibilityRule>
+        </fields>
         <fields>
             <name>Destination_1</name>
             <fieldText>Destination 1</fieldText>
@@ -1212,6 +1333,9 @@
                     <name>Location1</name>
                     <choiceReferences>Location</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Location1</elementReference>
+                    </defaultValue>
                     <fieldText>Location</fieldText>
                     <fieldType>DropdownBox</fieldType>
                     <isRequired>true</isRequired>
@@ -1230,6 +1354,9 @@
                 <fields>
                     <name>Visiting_Date1</name>
                     <dataType>DateTime</dataType>
+                    <defaultValue>
+                        <elementReference>Visiting_Date1</elementReference>
+                    </defaultValue>
                     <fieldText>Visiting Date</fieldText>
                     <fieldType>InputField</fieldType>
                     <isRequired>true</isRequired>
@@ -1256,6 +1383,9 @@
                     <name>Location2</name>
                     <choiceReferences>Location</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Location2</elementReference>
+                    </defaultValue>
                     <fieldText>Location</fieldText>
                     <fieldType>DropdownBox</fieldType>
                     <isRequired>true</isRequired>
@@ -1274,6 +1404,9 @@
                 <fields>
                     <name>Visiting_Date2</name>
                     <dataType>DateTime</dataType>
+                    <defaultValue>
+                        <elementReference>Visiting_Date2</elementReference>
+                    </defaultValue>
                     <fieldText>Visiting Date</fieldText>
                     <fieldType>InputField</fieldType>
                     <isRequired>true</isRequired>
@@ -1310,6 +1443,9 @@
                     <name>Location3</name>
                     <choiceReferences>Location</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Location3</elementReference>
+                    </defaultValue>
                     <fieldText>Location</fieldText>
                     <fieldType>DropdownBox</fieldType>
                     <isRequired>true</isRequired>
@@ -1328,6 +1464,9 @@
                 <fields>
                     <name>Visiting_Date3</name>
                     <dataType>DateTime</dataType>
+                    <defaultValue>
+                        <elementReference>Visiting_Date3</elementReference>
+                    </defaultValue>
                     <fieldText>Visiting Date</fieldText>
                     <fieldType>InputField</fieldType>
                     <isRequired>true</isRequired>
@@ -1364,6 +1503,9 @@
                     <name>Location4</name>
                     <choiceReferences>Location</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Location4</elementReference>
+                    </defaultValue>
                     <fieldText>Location</fieldText>
                     <fieldType>DropdownBox</fieldType>
                     <isRequired>true</isRequired>
@@ -1382,6 +1524,9 @@
                 <fields>
                     <name>Visiting_Date4</name>
                     <dataType>DateTime</dataType>
+                    <defaultValue>
+                        <elementReference>Visiting_Date4</elementReference>
+                    </defaultValue>
                     <fieldText>Visiting Date</fieldText>
                     <fieldType>InputField</fieldType>
                     <isRequired>true</isRequired>
@@ -1418,6 +1563,9 @@
                     <name>Location5</name>
                     <choiceReferences>Location</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Location5</elementReference>
+                    </defaultValue>
                     <fieldText>Location</fieldText>
                     <fieldType>DropdownBox</fieldType>
                     <isRequired>true</isRequired>
@@ -1436,6 +1584,9 @@
                 <fields>
                     <name>Visiting_Date5</name>
                     <dataType>DateTime</dataType>
+                    <defaultValue>
+                        <elementReference>Visiting_Date5</elementReference>
+                    </defaultValue>
                     <fieldText>Visiting Date</fieldText>
                     <fieldType>InputField</fieldType>
                     <isRequired>true</isRequired>
@@ -1465,29 +1616,10 @@
         <showHeader>true</showHeader>
     </screens>
     <screens>
-        <name>Error_Message</name>
-        <label>Error Message</label>
-        <locationX>1397</locationX>
-        <locationY>2423</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>false</allowFinish>
-        <allowPause>false</allowPause>
-        <connector>
-            <targetReference>New_Event</targetReference>
-        </connector>
-        <fields>
-            <name>Generic_Error_Message</name>
-            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(255, 0, 0); font-size: 14px;&quot;&gt;Please go back and resolve following errors before proceeding.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;{!$Flow.FaultMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
         <name>Finsih_Screen</name>
         <label>Finsih Screen</label>
-        <locationX>1558</locationX>
-        <locationY>2214</locationY>
+        <locationX>1421</locationX>
+        <locationY>2245</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1506,8 +1638,8 @@
     <screens>
         <name>New_Event</name>
         <label>New Event</label>
-        <locationX>1440</locationX>
-        <locationY>447</locationY>
+        <locationX>1433</locationX>
+        <locationY>656</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1524,6 +1656,9 @@
                     <name>Group_Name</name>
                     <choiceReferences>GroupName</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Group_Name</elementReference>
+                    </defaultValue>
                     <fieldText>Group Name</fieldText>
                     <fieldType>DropdownBox</fieldType>
                     <isRequired>true</isRequired>
@@ -1531,6 +1666,9 @@
                 <fields>
                     <name>Event_Start_Date</name>
                     <dataType>DateTime</dataType>
+                    <defaultValue>
+                        <elementReference>Event_Start_Date</elementReference>
+                    </defaultValue>
                     <fieldText>Event Start Date</fieldText>
                     <fieldType>InputField</fieldType>
                     <isRequired>true</isRequired>
@@ -1539,7 +1677,7 @@
                     <name>Cost</name>
                     <dataType>Number</dataType>
                     <defaultValue>
-                        <numberValue>0.0</numberValue>
+                        <elementReference>Cost</elementReference>
                     </defaultValue>
                     <fieldText>Cost</fieldText>
                     <fieldType>InputField</fieldType>
@@ -1550,7 +1688,7 @@
                     <name>Number_of_Seats</name>
                     <dataType>Number</dataType>
                     <defaultValue>
-                        <numberValue>20.0</numberValue>
+                        <elementReference>Number_of_Seats</elementReference>
                     </defaultValue>
                     <fieldText>Number of Seats</fieldText>
                     <fieldType>InputField</fieldType>
@@ -1571,6 +1709,9 @@
                 <fields>
                     <name>Event_Name</name>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Event_Name</elementReference>
+                    </defaultValue>
                     <fieldText>Event Name</fieldText>
                     <fieldType>InputField</fieldType>
                     <isRequired>true</isRequired>
@@ -1578,6 +1719,9 @@
                 <fields>
                     <name>Event_End_Date</name>
                     <dataType>DateTime</dataType>
+                    <defaultValue>
+                        <elementReference>Event_End_Date</elementReference>
+                    </defaultValue>
                     <fieldText>Event End Date</fieldText>
                     <fieldType>InputField</fieldType>
                     <isRequired>true</isRequired>
@@ -1587,7 +1731,7 @@
                     <choiceReferences>Grade</choiceReferences>
                     <dataType>String</dataType>
                     <defaultValue>
-                        <stringValue>Easy</stringValue>
+                        <elementReference>Difficulty_Level</elementReference>
                     </defaultValue>
                     <fieldText>Difficulty Level</fieldText>
                     <fieldType>DropdownBox</fieldType>
@@ -1612,10 +1756,12 @@
             <choiceReferences>fourth</choiceReferences>
             <choiceReferences>fifth</choiceReferences>
             <dataType>Number</dataType>
-            <defaultSelectedChoiceReference>first</defaultSelectedChoiceReference>
+            <defaultValue>
+                <elementReference>No_of_Destinations</elementReference>
+            </defaultValue>
             <fieldText>No. of Destinations</fieldText>
             <fieldType>DropdownBox</fieldType>
-            <isRequired>false</isRequired>
+            <isRequired>true</isRequired>
             <scale>0</scale>
         </fields>
         <showFooter>true</showFooter>
@@ -1624,56 +1770,107 @@
     <screens>
         <name>Recurring_Events</name>
         <label>Recurring Events</label>
-        <locationX>724</locationX>
-        <locationY>1991</locationY>
+        <locationX>778</locationX>
+        <locationY>2005</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Is_Recurring_Selected</targetReference>
+            <targetReference>Add_Future_Dates</targetReference>
         </connector>
         <fields>
-            <name>Same_Event_Occurring_Multiple_Times</name>
-            <fieldText>&lt;p&gt;If your event occurs on multiple dates.&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
-            <name>Do_you_want_to_add_Same_Event_with_Different_Date</name>
-            <choiceReferences>YES</choiceReferences>
-            <choiceReferences>NO</choiceReferences>
-            <dataType>Boolean</dataType>
-            <defaultSelectedChoiceReference>NO</defaultSelectedChoiceReference>
-            <fieldText>Do you want to add another date?</fieldText>
-            <fieldType>RadioButtons</fieldType>
-            <isRequired>true</isRequired>
-        </fields>
-        <fields>
-            <name>Selected_Upcoming_Dates</name>
-            <fieldText>&lt;p&gt;&lt;strong&gt;Selected Upcoming Dates&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;{!FutureBatchDates}&lt;/p&gt;</fieldText>
+            <name>Screen_3_Error_Message</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;Please resolve following errors before proceeding. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;{!ApexErrorMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
-                    <leftValueReference>FutureBatchDates</leftValueReference>
-                    <operator>IsNull</operator>
-                    <rightValue>
-                        <booleanValue>false</booleanValue>
-                    </rightValue>
+                    <leftValueReference>ApexErrorMessage</leftValueReference>
+                    <operator>NotEqualTo</operator>
                 </conditions>
             </visibilityRule>
+        </fields>
+        <fields>
+            <name>Selected_Upcoming_Dates</name>
+            <fieldText>&lt;p&gt;&lt;strong&gt;Add up-to 5 future batches.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Directly click proceed if your event occurs only once.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Future_Batch_Date_1</name>
+            <dataType>Date</dataType>
+            <defaultValue>
+                <elementReference>Future_Batch_Date_1</elementReference>
+            </defaultValue>
+            <fieldText>Future Batch Date 1</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Future_Batch_Date_2</name>
+            <dataType>Date</dataType>
+            <defaultValue>
+                <elementReference>Future_Batch_Date_2</elementReference>
+            </defaultValue>
+            <fieldText>Future Batch Date 2</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Future_Batch_Date_3</name>
+            <dataType>Date</dataType>
+            <defaultValue>
+                <elementReference>Future_Batch_Date_3</elementReference>
+            </defaultValue>
+            <fieldText>Future Batch Date 3</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Future_Batch_Date_4</name>
+            <dataType>Date</dataType>
+            <defaultValue>
+                <elementReference>Future_Batch_Date_4</elementReference>
+            </defaultValue>
+            <fieldText>Future Batch Date 4</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Future_Batch_Date_5</name>
+            <dataType>Date</dataType>
+            <defaultValue>
+                <elementReference>Future_Batch_Date_5</elementReference>
+            </defaultValue>
+            <fieldText>Future Batch Date 5</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
         </fields>
         <nextOrFinishButtonLabel>Proceed</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>1530</locationX>
-        <locationY>48</locationY>
+        <locationX>1587</locationX>
+        <locationY>258</locationY>
         <connector>
             <targetReference>Get_Credentials</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>ApexActionStatus</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>ApexErrorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
     <variables>
         <name>DateTimeList</name>
         <dataType>DateTime</dataType>
@@ -1728,6 +1925,17 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Destination__c</objectType>
+    </variables>
+    <variables>
+        <name>ErrorScreenNumber</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
     </variables>
     <variables>
         <name>Event_Slot_Text</name>

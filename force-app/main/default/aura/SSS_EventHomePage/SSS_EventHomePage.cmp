@@ -11,6 +11,7 @@
     <aura:attribute name="isModalOpen" type="boolean" default="false"/>
     <aura:attribute name="isLoading" type="Boolean" default="true"/>
     <aura:attribute name="slotKeys" type="List"/>
+    <aura:attribute name="selectedSlotKey" type="String"/>
     <aura:attribute name="slotNameMap" type="Map"/>
     <aura:attribute name="slotDataMap" type="Map"/>
     
@@ -19,7 +20,7 @@
     <lightning:card title="Events in Sahyadri">
         
         <aura:set attribute="actions">
-            <lightning:button class="slds-button slds-button_success" label="Add Event" onclick="{! c.launchAddEventFlow}"/>
+            <lightning:button variant="brand" label="Add Event" onclick="{! c.launchAddEventFlow}"/>
         </aura:set>
                    
         <aura:if isTrue="{!v.isLoading}">
@@ -27,18 +28,17 @@
             
             <aura:set attribute="else">
             	
-                &nbsp;&nbsp;&nbsp;&nbsp;Click on below tabs to check weekend specific treks.<br/>
-                
-                <div class="slds-scrollable_x" style="height:5rem;">
-                    <aura:iteration items="{!v.slotKeys}" var="slot">
-                        <c:SSS_EventHomeTabs slotKey="{!slot}" slotNameMap="{!v.slotNameMap}"/>
+                <div class="slds-scrollable_x">
+                    &nbsp;&nbsp;&nbsp;
+                    <aura:iteration items="{!v.slotKeys}" var="slot" end="5">
+                        <c:SSS_EventHomeTabs selectedSlotKey="{!v.selectedSlotKey}" slotKey="{!slot}" slotNameMap="{!v.slotNameMap}"/>
                     </aura:iteration>
                 </div>
             </aura:set>
         </aura:if>
         
     </lightning:card>
-    <div class="slds-scrollable" style="height:25rem">
+    <div>
     {!v.body}
     </div>
     

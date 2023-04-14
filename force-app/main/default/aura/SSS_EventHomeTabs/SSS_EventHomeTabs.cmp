@@ -2,11 +2,12 @@
 	
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:attribute name="slotKey" type="String" access="public"/>
+    <aura:attribute name="selectedSlotKey" type="String" access="public"/>
     <aura:attribute name="slotNameMap" type="Map" access="public"/>
     <aura:attribute name="slotName" type="String" access="public"/>
     
     <aura:registerEvent name="TabClickEvent" type="c:SSS_TabClickEvent" />
     
-    <lightning:button label="{!v.slotName}" title="{!v.slotName}" onclick="{!c.showSlotData}"/>
+    <lightning:button variant="{! v.slotKey == v.selectedSlotKey ? 'brand-outline' : 'Neutral'}" label="{!v.slotName}" title="{!v.slotName}" onclick="{!c.showSlotData}"/>
     
 </aura:component>

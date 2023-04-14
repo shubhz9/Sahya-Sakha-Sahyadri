@@ -23,6 +23,8 @@
                 component.set("v.slotNameMap", resWrapper.slotNameMap);
                 component.set("v.slotDataMap", resWrapper.slotDataMap);
             	component.set("v.isLoading", false);
+                
+                helper.loadTabData(component, event, helper);
 
             }
         });
@@ -34,18 +36,7 @@
 	},
     handleTabClickEvent : function(component, event, helper) {
         
-        var slotKeyParent = event.getParam("tabKey"); 
-       	$A.createComponent('c:SSS_EventHomeTabData', {
-            slotKey: slotKeyParent,
-            slotDataMap: component.get("v.slotDataMap")
-        }, function attachModal(modalCmp, status) {
-            if (component.isValid() && status === 'SUCCESS') {
-                var body = component.get("v.body");
-                body = [];
-                body.push(modalCmp);
-                component.set("v.body", body);    
-            }
-        });
+        helper.loadTabData(component, event, helper);
         
 	}
 })

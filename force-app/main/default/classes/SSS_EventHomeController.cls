@@ -6,9 +6,10 @@ global without sharing class SSS_EventHomeController {
         EventHomeDTO eventDetails = new EventHomeDTO();
         
         List<Trekking_Event__c> trekkingEvents = [SELECT id, name, Organization__r.name, Event_slot__c, 
-                                                  Start_time__c, End_Time__c, Grade__c, Batch_Size__c, 
+                                                  Start_time__c, End_Time__c, Grade__c, Batch_Size__c, Cost__c,  
                                                   	(SELECT id, Location__c, Type__c, Visiting_Date__c 
-                                                     FROM Destinations__r) 
+                                                     FROM Destinations__r
+                                                     ORDER BY Visiting_Date__c ) 
                                                   FROM Trekking_Event__c 
                                                   WHERE End_Time__c >= TODAY 
                                                   ORDER BY Start_time__c];
@@ -19,9 +20,11 @@ global without sharing class SSS_EventHomeController {
         
     }
     
-    private static Map<String, List<TrekEventsDTO>> prepareWeekendWiseTrekEvents(List<Trekking_Event__c> trekkingEvents, EventHomeDTO eventDetails){
+    private static Map<String, List<LocationWiseTrekEventsDTO>> prepareWeekendWiseTrekEvents(List<Trekking_Event__c> trekkingEvents, EventHomeDTO eventDetails){
 
         Map<String, List<TrekEventsDTO>> weekendWiseTrekEvents = new Map<String, List<TrekEventsDTO>>();
+        Map<String, List<LocationWiseTrekEventsDTO>> weekendAndLocWiseTrekEvents = new Map<String, List<LocationWiseTrekEventsDTO>>();
+        
         Set<String> slotKeysSet = new Set<String>();
         Map<String, String> slotNameMap = new Map<String, String>();
         
@@ -32,6 +35,7 @@ global without sharing class SSS_EventHomeController {
             trekEventDetails.organizationName = trekEvent.Organization__r.Name;
             trekEventDetails.eventDate = getEventDate(trekEvent.Start_time__c, trekEvent.End_Time__c);
             trekEventDetails.batchSize = (Integer) trekEvent.Batch_Size__c;
+            trekEventDetails.eventCost = (Integer) trekEvent.Cost__c;
             trekEventDetails.destinations = getEventDestinations(trekEvent.Destinations__r);
             
             String weekendSlot = trekEvent.Event_slot__c.split('-')[0] + '\n' + trekEvent.Event_slot__c.split('-')[1] + ' ' + trekEvent.End_Time__c.year();
@@ -39,6 +43,16 @@ global without sharing class SSS_EventHomeController {
             slotKey = 'SL'+slotKey.trim().remove(' ');
             slotKeysSet.add(slotKey);
             slotNameMap.put(slotKey, weekendSlot);
+            
+            List<LocationWiseTrekEventsDTO> locWiseTrekEvents;
+            if(weekendAndLocWiseTrekEvents.get(slotKey) != null){
+                locWiseTrekEvents = weekendAndLocWiseTrekEvents.get(slotKey);
+            }else{
+                locWiseTrekEvents = new List<LocationWiseTrekEventsDTO>();
+                weekendAndLocWiseTrekEvents.put(slotKey, locWiseTrekEvents);
+            }
+            
+            prepareLocationWiseData(locWiseTrekEvents, trekEventDetails);
             
             if(weekendWiseTrekEvents.get(slotKey) != null){
                 weekendWiseTrekEvents.get(slotKey).add(trekEventDetails);
@@ -53,8 +67,47 @@ global without sharing class SSS_EventHomeController {
         eventDetails.slotKeys = slotKeys;
         eventDetails.slotNameMap = slotNameMap;
         
-        return weekendWiseTrekEvents;
+        return weekendAndLocWiseTrekEvents;
     
+    }
+    
+    private static List<LocationWiseTrekEventsDTO> prepareLocationWiseData(List<LocationWiseTrekEventsDTO> locWiseTrekEvents, TrekEventsDTO trekEventDetails){
+        
+        Set<String> locationNameKeys = new Set<String>();
+        LocationWiseTrekEventsDTO matchingLocationEvent;
+        
+        for(DestinationDTO destination : trekEventDetails.destinations){
+            
+            locationNameKeys.add(destination.name);
+            
+            if(matchingLocationEvent != null){
+                continue;
+            }
+            
+            for(LocationWiseTrekEventsDTO locWiseTrekRec : locWiseTrekEvents){
+                if(locWiseTrekRec.locationNames != null
+                   && locWiseTrekRec.locationNames.contains(destination.name)){
+
+					matchingLocationEvent = locWiseTrekRec;
+                    locationNameKeys.addAll(locWiseTrekRec.locationNames);
+                    break;
+               
+            	}
+            }
+        }
+        
+        if(matchingLocationEvent == null){
+            matchingLocationEvent = new LocationWiseTrekEventsDTO();
+            matchingLocationEvent.trekEvents = new List<TrekEventsDTO>{trekEventDetails};
+            locWiseTrekEvents.add(matchingLocationEvent);
+        }else{
+            matchingLocationEvent.trekEvents.add(trekEventDetails);        
+        }
+        
+        matchingLocationEvent.locationNames = new List<String>(locationNameKeys);
+        
+        return locWiseTrekEvents;
+        
     }
     
     private static List<DestinationDTO> getEventDestinations(List<Destination__c> destinationRecs){
@@ -118,8 +171,15 @@ global without sharing class SSS_EventHomeController {
         @AuraEnabled
         public Map<String, String> slotNameMap; 
         @AuraEnabled
-        public Map<String, List<TrekEventsDTO>> slotDataMap; 
+        public Map<String, List<LocationWiseTrekEventsDTO>> slotDataMap; 
         
+    }
+    
+    public class LocationWiseTrekEventsDTO{
+        @AuraEnabled
+        public List<String> locationNames;
+        @AuraEnabled
+        public List<TrekEventsDTO> trekEvents;
     }
     
     public class TrekEventsDTO{
@@ -132,6 +192,9 @@ global without sharing class SSS_EventHomeController {
         
         @AuraEnabled
         public String eventDate;
+        
+        @AuraEnabled
+        public Integer eventCost;
         
         @AuraEnabled
         public Integer batchSize;
