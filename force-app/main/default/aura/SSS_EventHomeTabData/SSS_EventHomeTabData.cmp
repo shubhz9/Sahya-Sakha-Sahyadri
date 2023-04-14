@@ -1,3 +1,13 @@
+<!--
+  @description       : 
+  @author            : Shubham Raut
+  @group             : 
+  @last modified on  : 04-14-2023
+  @last modified by  : Shubham Raut
+  Modifications Log
+  Ver   Date         Author         Modification
+  1.0   04-14-2023   Shubham Raut   Initial Version
+-->
 <aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
 	
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -17,7 +27,7 @@
                                                   class="navigation" 
                                                   shaded="true">
                         <aura:iteration items="{!v.slotData}" var="locdata">
-                            <lightning:verticalNavigationItemBadge label="{!locdata.locationNameKey}" 
+                            <lightning:verticalNavigationItemBadge class="backgroundbox" label="{!locdata.locationNameKey}" 
                                                                    name="{!locdata.locationNameKey}"
                                                                    badgeCount="{! locdata.locationEventCount }"/>
                         </aura:iteration>
@@ -31,11 +41,11 @@
                             <li class="slds-item">
                                 <lightning:card class="marginCard">
                                     <aura:set attribute="title">
-                                        <h6>{!data.eventName}</h6>
+                                        <h6><b>{!data.eventName}</b></h6>
                                     </aura:set>
                                     <aura:set attribute="actions">
                                         <ul class="slds-list_horizontal slds-has-dividers_right">
-                                        	<li class="slds-item">{!data.eventDate}</li>
+                                        	<li class="slds-item"><b>{!data.eventDate}</b></li>
                                             <li class="slds-item">{!data.eventCost}/-</li>
                                         </ul>
                                     </aura:set>
