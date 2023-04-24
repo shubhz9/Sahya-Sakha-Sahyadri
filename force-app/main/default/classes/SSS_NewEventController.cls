@@ -79,8 +79,8 @@ global without sharing class SSS_NewEventController {
         List<Destination__c> futureEventDestinations = new List<Destination__c>();
         Map<Integer, Trekking_Event__c> nextBatchEventTimeMap = new Map<Integer, Trekking_Event__c>();
                 
-        Trekking_Event__c mainEvent = [SELECT id, name, Event_slot__c, createdDate, Organization__r.name, 
-                                           Start_time__c, End_Time__c, Grade__c, Batch_Size__c, cost__c, 
+        Trekking_Event__c mainEvent = [SELECT id, name, Event_slot__c, createdDate, Organization__r.name, Departure_From__c, 
+                                           Start_time__c, End_Time__c, Grade__c, Batch_Size__c, cost__c, Event_Details_Link__c, 
                                            (SELECT id, name, Location__c, Type__c, Visiting_Date__c 
                                             FROM Destinations__r) 
                                       FROM Trekking_Event__c 
@@ -94,7 +94,7 @@ global without sharing class SSS_NewEventController {
             return;
         }
         
-        Date mainEventStartDate = Date.newInstance(mainEvent.Start_time__c.yearGmt(), mainEvent.Start_time__c.monthGmt(), mainEvent.Start_time__c.dayGmt());
+        Date mainEventStartDate = Date.newInstance(mainEvent.Start_time__c.year(), mainEvent.Start_time__c.month(), mainEvent.Start_time__c.day());
         
         for(Date futureBatchDT : futureBatcheDates){
             
@@ -140,8 +140,8 @@ global without sharing class SSS_NewEventController {
             if(futureBatch == null){
                 continue;
             }
-            if(trekkingEvent.End_Time__c > futureBatch || futureBatchDates.contains(futureBatch)){
-                errorMessage = 'Invalid dates for Future batches. Dates entered must be greater than main event end date or must not be duplicate.';
+            if(trekkingEvent.Start_Time__c > futureBatch || futureBatchDates.contains(futureBatch)){
+                errorMessage = 'Invalid dates for Future batches. Dates entered must be greater than main event start date or must not be duplicate.';
 				errorScreenNumber = 3;
             }else{
                 futureBatchDates.add(futureBatch);

@@ -5,8 +5,8 @@ global without sharing class SSS_EventHomeController {
         
         EventHomeDTO eventDetails = new EventHomeDTO();
         
-        List<Trekking_Event__c> trekkingEvents = [SELECT id, name, Organization__r.name, Event_slot__c, 
-                                                  Start_time__c, End_Time__c, Grade__c, Batch_Size__c, Cost__c,  
+        List<Trekking_Event__c> trekkingEvents = [SELECT id, name, Organization__r.Group_Name__c, Organization__r.Instagram__c , Event_slot__c, Departure_From__c, 
+                                                  Start_time__c, End_Time__c, Grade__c, Batch_Size__c, Cost__c, Event_Details_Link__c, 
                                                   	(SELECT id, Location__c, Type__c, Visiting_Date__c 
                                                      FROM Destinations__r
                                                      ORDER BY Visiting_Date__c ) 
@@ -32,10 +32,13 @@ global without sharing class SSS_EventHomeController {
             
             TrekEventsDTO trekEventDetails = new TrekEventsDTO();
             trekEventDetails.eventName = trekEvent.name;
-            trekEventDetails.organizationName = trekEvent.Organization__r.Name;
+            trekEventDetails.organizationName = trekEvent.Organization__r.Group_Name__c;
+            trekEventDetails.organizationSocialProfile = 'https://www.instagram.com/' + trekEvent.Organization__r.Instagram__c;
             trekEventDetails.eventDate = getEventDate(trekEvent.Start_time__c, trekEvent.End_Time__c);
             trekEventDetails.batchSize = (Integer) trekEvent.Batch_Size__c;
             trekEventDetails.eventCost = (Integer) trekEvent.Cost__c;
+            trekEventDetails.departureFrom = trekEvent.Departure_From__c;
+            trekEventDetails.eventDetailsLink = trekEvent.Event_Details_Link__c;
             trekEventDetails.destinations = getEventDestinations(trekEvent.Destinations__r);
             
             String weekendSlot = trekEvent.Event_slot__c.split('-')[0] + '\n' + trekEvent.Event_slot__c.split('-')[1] + ' ' + trekEvent.End_Time__c.year();
@@ -191,6 +194,9 @@ global without sharing class SSS_EventHomeController {
         public String organizationName;
         
         @AuraEnabled
+        public String organizationSocialProfile;
+        
+        @AuraEnabled
         public String eventDate;
         
         @AuraEnabled
@@ -198,6 +204,12 @@ global without sharing class SSS_EventHomeController {
         
         @AuraEnabled
         public Integer batchSize;
+        
+        @AuraEnabled
+        public String departureFrom;
+        
+        @AuraEnabled
+        public String eventDetailsLink;
         
         @AuraEnabled
         public List<DestinationDTO> destinations;

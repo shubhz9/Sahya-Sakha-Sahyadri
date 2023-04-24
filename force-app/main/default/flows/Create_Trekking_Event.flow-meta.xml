@@ -394,6 +394,20 @@
             <assignToReference>Destinations</assignToReference>
             <operator>Assign</operator>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TrekkingEventRecord.Event_Details_Link__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>EventDetailsLink.value</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TrekkingEventRecord.Departure_From__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Departing_From_Input_Label</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Create_Destinations</targetReference>
         </connector>
@@ -1737,6 +1751,14 @@
                     <fieldType>DropdownBox</fieldType>
                     <isRequired>false</isRequired>
                 </fields>
+                <fields>
+                    <name>Departing_From_Input_Label</name>
+                    <dataType>String</dataType>
+                    <fieldText>Departing From</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <helpText>&lt;p&gt;Enter all the major locations from where you are providing transport facility.&lt;/p&gt;</helpText>
+                    <isRequired>false</isRequired>
+                </fields>
                 <inputParameters>
                     <name>width</name>
                     <value>
@@ -1763,6 +1785,37 @@
             <fieldType>DropdownBox</fieldType>
             <isRequired>true</isRequired>
             <scale>0</scale>
+        </fields>
+        <fields>
+            <name>Event_Details_Display_text</name>
+            <fieldText>&lt;p&gt;Enter a link to get more info about event and register for event. For e.g.&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;Event Booking Form&lt;/strong&gt;&lt;span style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt; or&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;WhatsApp redirect&lt;/strong&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(0, 0, 0);&quot;&gt; or&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;Social media profile or post about event&lt;/strong&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(0, 0, 0);&quot;&gt; or&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;Website Event page&lt;/strong&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(0, 0, 0);&quot;&gt; or anything like that&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>EventDetailsLink</name>
+            <extensionName>flowruntime:url</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>value</name>
+                <value>
+                    <elementReference>EventDetailsLink.value</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Enter Link Here</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>disabled</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
@@ -1936,6 +1989,13 @@
         <value>
             <numberValue>0.0</numberValue>
         </value>
+    </variables>
+    <variables>
+        <name>Event_Details_Link</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>Event_Slot_Text</name>

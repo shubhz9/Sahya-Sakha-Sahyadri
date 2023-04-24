@@ -4,10 +4,12 @@
     <columns>NAME</columns>
     <columns>Organization__c</columns>
     <columns>Start_time__c</columns>
+    <columns>End_Time__c</columns>
     <columns>Cost__c</columns>
     <columns>Batch_Size__c</columns>
-    <columns>CREATEDBY_USER</columns>
-    <columns>LAST_UPDATE</columns>
+    <columns>Departure_From__c</columns>
+    <columns>Event_Details_Link__c</columns>
+    <columns>CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

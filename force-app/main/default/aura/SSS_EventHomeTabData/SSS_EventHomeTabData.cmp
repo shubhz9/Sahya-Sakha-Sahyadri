@@ -47,6 +47,9 @@
                                         <ul class="slds-list_horizontal slds-has-dividers_right">
                                         	<li class="slds-item"><b>{!data.eventDate}</b></li>
                                             <li class="slds-item">{!data.eventCost}/-</li>
+                                            <aura:if isTrue="{!data.departureFrom}">
+                                            	<li class="slds-item">From {!data.departureFrom}</li>
+                                            </aura:if>
                                         </ul>
                                     </aura:set>
                                     <aura:set attribute="body">
@@ -57,10 +60,20 @@
                                                 <li class="slds-item">{!destination.name}</li>
                                             </aura:iteration>
                                         </ul>
+                                        <aura:if isTrue="{!data.eventDetailsLink}">
+                                            <br/>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                        	<lightning:formattedUrl value="{!data.eventDetailsLink}" label="More details and registration process" tooltip="Event details and registration" target="_blank" />
+                                        </aura:if>
                                     </aura:set>
                                     
                                     <aura:set attribute="footer">
-                                        {!data.organizationName}
+                                        <aura:if isTrue="{!data.organizationSocialProfile}">
+                                            <lightning:formattedUrl value="{!data.organizationSocialProfile}" label="{!data.organizationName}" tooltip="{!data.organizationName}" target="_blank" />
+                                            <aura:set attribute="else">
+                                        		{!data.organizationName}
+                                            </aura:set>
+                                        </aura:if>
                                     </aura:set>
                                 </lightning:card>
                             </li>

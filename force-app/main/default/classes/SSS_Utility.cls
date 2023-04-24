@@ -25,8 +25,8 @@ public without sharing class SSS_Utility {
         
     public static String calculateWeekendNumber(DateTime startDate){
         
-        Integer year = startDate.yearGmt();
-        Integer month = startDate.monthGmt();
+        Integer year = startDate.year();
+        Integer month = startDate.month();
         Datetime firstWeekendDate = getFirstWeekendDate(DateTime.newInstance(year, month, 1));
         
         Integer weekendNumber = 1;
