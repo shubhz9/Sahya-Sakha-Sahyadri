@@ -5,7 +5,7 @@
         if(!slotKeyParent){
             slotKeyParent = component.get("v.slotKeys")[0];
         }
-       	$A.createComponent('c:SSS_EventHomeTabData', {
+       	$A.createComponent('c:SSS_EventHomeTabDataPhone', {
             slotKey: slotKeyParent,
             slotDataMap: component.get("v.slotDataMap")
         }, function attachModal(modalCmp, status) {

@@ -14,61 +14,65 @@
     <aura:attribute name="selectedSlotKey" type="String"/>
     <aura:attribute name="slotNameMap" type="Map"/>
     <aura:attribute name="slotDataMap" type="Map"/>
+    <aura:attribute name="backgroundImageURL" type="String"/>
     
     <aura:handler name="TabClickEvent" event="c:SSS_TabClickEvent" action="{!c.handleTabClickEvent}"/>
-    <div>
-    <lightning:card title="Events in Sahyadri">
-        
-        <aura:set attribute="actions">
-            <lightning:button variant="brand" label="Add Event" onclick="{! c.launchAddEventFlow}"/>
-        </aura:set>
-                   
-        <aura:if isTrue="{!v.isLoading}">
-            <lightning:spinner alternativeText="Loading" size="small" />
+    <div>       
+        <lightning:card class="titleCard">
             
-            <aura:set attribute="else">
-            	
-                <div class="slds-scrollable_x">
-                    &nbsp;&nbsp;&nbsp;
-                    <aura:iteration items="{!v.slotKeys}" var="slot" end="5">
-                        <c:SSS_EventHomeTabs selectedSlotKey="{!v.selectedSlotKey}" slotKey="{!slot}" slotNameMap="{!v.slotNameMap}"/>
-                    </aura:iteration>
-                </div>
+            <aura:set attribute="title">
+                <p style="font-size: xxx-large;margin-top: 4%;margin-left: 4%;width: 26rem;">Events in Sahyadri</p>
             </aura:set>
-        </aura:if>
+            
+            <!--<aura:set attribute="actions">
+                <lightning:button class="actionButton" variant="brand" label="Add Event" onclick="{! c.launchAddEventFlow}"/>
+            </aura:set>-->
+                       
+            <aura:if isTrue="{!v.isLoading}">
+                <lightning:spinner alternativeText="Loading" size="small" />
+                
+                <aura:set attribute="else">
+                    <div class="slds-scrollable_x" style="white-space: nowrap;     margin-left: 2%;">
+                        &nbsp;&nbsp;&nbsp;
+                        <aura:iteration items="{!v.slotKeys}" var="slot" end="5">
+                            <c:SSS_EventHomeTabs selectedSlotKey="{!v.selectedSlotKey}" slotKey="{!slot}" slotNameMap="{!v.slotNameMap}"/>
+                        </aura:iteration>
+                    </div>
+                </aura:set>
+            </aura:if>
+            
+        </lightning:card>
+        <div>
+        {!v.body}
+        </div>
         
-    </lightning:card>
-    <div>
-    {!v.body}
-    </div>
-    
-    <aura:if isTrue="{!v.isModalOpen}">         
-        <!-- Modal/Popup Box starts here-->
-        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-            <div class="slds-modal__container">
-                <!-- Modal/Popup Box Header Starts here-->
-                <header class="slds-modal__header">
-                    <lightning:buttonIcon iconName="utility:close"
-                                          onclick="{! c.closeModel }"
-                                          alternativeText="close"
-                                          variant="bare-inverse"
-                                          class="slds-modal__close"/>
-                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create New Event</h2>
-                </header>
-                <!--Modal/Popup Box Body Starts here-->
-                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                    <lightning:flow aura:id="flowData"/>
+        <aura:if isTrue="{!v.isModalOpen}">         
+            <!-- Modal/Popup Box starts here-->
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" style="justify-content: start;">
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create New Event</h2>
+                    </header>
+                    <!--Modal/Popup Box Body Starts here-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning:flow aura:id="flowData"/>
+                    </div>
+                    <!--Modal/Popup Box Footer Starts here-->
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel }"/>
+                    </footer>
                 </div>
-                <!--Modal/Popup Box Footer Starts here-->
-                <footer class="slds-modal__footer">
-                    <lightning:button variant="neutral"
-                                      label="Cancel"
-                                      title="Cancel"
-                                      onclick="{! c.closeModel }"/>
-                </footer>
-            </div>
-        </section>
-        <div class="slds-backdrop slds-backdrop_open"></div>
-    </aura:if>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
     </div>
 </aura:component>

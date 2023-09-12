@@ -1,0 +1,98 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+		
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="slotKey" type="String" access="public"/>
+    <aura:attribute name="slotDataMap" type="Map" access="public"/>
+    <aura:attribute name="slotData" type="List" access="public"/>
+    <aura:attribute name="trekEvents" type="List" access="public"/>
+    <aura:attribute name="selectedItem" type="String" />
+    
+    <aura:attribute name="showEventSummary" type="Boolean" default="false" />
+    
+    <div style="height:100vp">
+            
+        <div class="{! IF(v.showEventSummary, 'slds-hide', '')}">
+            <div style="margin-left: 2%;margin-top: 1%;">
+                <lightning:icon iconName="utility:rows" size="large" class="sizeLarge" onclick="{! c.toggleEventSummary}"/>
+                <p style="display: inline-block; margin: 1%; font-size: xx-large">{! v.selectedItem} Trek Events</p>
+            </div>
+            
+            <div class="slds-scrollable" style="height:100rem">
+                <ul>
+                    <aura:iteration items="{!v.trekEvents}" var="data">
+                        <li class="slds-item" style="margin: 2%;">
+                            <lightning:card class="marginCard">
+                                <aura:set attribute="title">
+                                    <p style="font-size: xx-large">{!data.eventName}</p>
+                                </aura:set>
+                                <aura:set attribute="actions">
+                                    <ul class="slds-list_vertical" style="text-align: right; font-size: x-large;">
+                                        <li class="slds-item"><b>{!data.eventDate}</b></li>
+                                    </ul>
+                                </aura:set>
+                                <aura:set attribute="body">
+                                    
+                                    <ul class="slds-list_horizontal slds-has-dividers_right">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <aura:iteration items="{!data.destinations}" var="destination">
+                                            <li class="slds-item" style="font-size: x-large">{!destination.name}</li>
+                                        </aura:iteration>
+                                    </ul>
+                                    <ul class="slds-list_vertical" style=" font-size: x-large; margin-left: 2%">
+                                        <li class="slds-item" style="margin-top: 1%; list-style-type:square">Rs. {!data.eventCost}/-</li>
+                                        <aura:if isTrue="{!data.departureFrom}">
+                                            <li class="slds-item" style="margin-top: 1%;width: 100%; list-style-type:square">From {!data.departureFrom}</li>
+                                        </aura:if>
+                                    </ul>
+                                    <aura:if isTrue="{!data.eventDetailsLink}">
+                                        <br/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <lightning:formattedUrl value="{!data.eventDetailsLink}" label="More details and registration process" tooltip="Event details and registration" target="_blank"  style="font-size: x-large"/>
+                                    </aura:if>
+                                </aura:set>
+                                
+                                <aura:set attribute="footer">
+                                    <div style="font-size: x-large">
+                                    <aura:if isTrue="{!data.organizationSocialProfile}">
+                                        <lightning:formattedUrl value="{!data.organizationSocialProfile}" label="{!data.organizationName}" tooltip="{!data.organizationName}" target="_blank" />
+                                        <aura:set attribute="else">
+                                            {!data.organizationName}
+                                        </aura:set>
+                                    </aura:if>
+                                    </div>
+                                </aura:set>
+                            </lightning:card>
+                        </li>
+                    </aura:iteration>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <div class="{! IF(v.showEventSummary, 'slds-scrollable', 'slds-hide')}" style="height:25rem;">
+            
+            <div style="margin-left: 1%;margin-top: 1%;">
+                <lightning:Icon iconName="utility:close" variant="container" class="sizeLarge" style="margin: 2%;"  onclick="{! c.toggleEventSummary}" />
+            </div>
+            
+            <lightning:verticalNavigation selectedItem="{! v.selectedItem }" 
+                                          onselect="{! c.handleSelect }"
+                                          class="navigation" 
+                                          shaded="true">
+                <aura:iteration items="{!v.slotData}" var="locdata">
+                    <lightning:layout class="slds-grid slds-wrap slds-p-bottom_small slds-grid slds-wrap backgroundbox">
+                        <lightning:layoutItem class="slds-size_7-of-8 slds-form-element__label">
+                            <lightning:verticalNavigationItemBadge class="backgroundbox customClass" label="{!locdata.locationNameKey}" 
+                                                                   name="{!locdata.locationNameKey}"/>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem class="slds-size_1-of-8 slds-form-element__label">
+                            <p class="countBadge">{! locdata.locationEventCount }</p>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </aura:iteration>
+            </lightning:verticalNavigation>
+        </div>
+
+    </div>
+    
+</aura:component>

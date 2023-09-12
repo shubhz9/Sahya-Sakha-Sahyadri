@@ -1,0 +1,46 @@
+.THIS .navigation {
+    min-width: 225px;
+    border-right: 1px solid #e7e7e7;
+    height: 25rem;
+}
+.THIS .scrollerSize {
+    height: 25rem;
+    border-radius: 1px;
+}
+.THIS .slds-card .marginCard {
+    margin-right: 1%;
+    margin-bottom: 1%;
+}
+.THIS .backgroundbox{
+    background-color: cornsilk;
+    align-items: center;
+}
+.THIS .onhoverCSS:hover{
+    text-decoration-line: underline;
+    text-decoration-color: blueviolet;
+}
+.THIS .slds-scope .slds-icon-text-default .sizeLarge {
+    height: 8rem;
+    width: 3rem;
+}
+.THIS .customClass{
+    display: inline-flex;
+    width:100%;
+    font-size:xx-large;
+}
+.THIS .countBadge{
+    display: inline-flex;
+    align-items: center;
+    font-size:xx-large !important;
+    padding: var(--lwc-spacingXxSmall,0.25rem) var(--lwc-spacingXSmall,0.5rem);
+    color: var(--slds-c-badge-text-color, var(--sds-c-badge-text-color, var(--slds-g-color-neutral-base-10, var(--lwc-colorTextDefault,rgb(3, 45, 96)))));
+    font-size: var(--slds-c-badge-font-size, var(--sds-c-badge-font-size, var(--lwc-fontSize2,0.75rem)));
+    font-weight: var(--lwc-fontWeightBold,700);
+    line-height: var(--slds-c-badge-line-height, var(--sds-c-badge-line-height, normal));
+    white-space: nowrap;
+    border-width: var(--slds-c-badge-sizing-border, var(--sds-c-badge-sizing-border, var(--lwc-borderWidthThin,1px)));
+    border-style: solid;
+    border-color: var(--slds-c-badge-color-border, var(--sds-c-badge-color-border, transparent));
+    border-radius: var(--slds-c-badge-radius-border, var(--sds-c-badge-radius-border, var(--lwc-borderRadiusPill,15rem)));
+    background-color: var(--slds-c-badge-color-background, var(--sds-c-badge-color-background, var(--slds-g-color-neutral-base-95, var(--lwc-colorBackgroundDark,rgb(243, 243, 243)))));
+}

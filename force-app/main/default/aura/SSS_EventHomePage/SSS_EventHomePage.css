@@ -2,3 +2,12 @@
 	--sds-c-button-brand-color-background: #bb00ff;
     --sds-c-button-text-color: #f4f7f9;
 }
+.THIS .actionButton {
+    font-size: x-large;
+    height: 3rem;
+    margin:1%;
+    width:10rem;
+}
+.THIS .titleCard{
+	background-color: #e1f3ff;        
+}

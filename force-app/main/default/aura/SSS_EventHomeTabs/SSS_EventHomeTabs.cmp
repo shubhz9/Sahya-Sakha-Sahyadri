@@ -7,7 +7,5 @@
     <aura:attribute name="slotName" type="String" access="public"/>
     
     <aura:registerEvent name="TabClickEvent" type="c:SSS_TabClickEvent" />
-    
-    <lightning:button variant="{! v.slotKey == v.selectedSlotKey ? 'brand-outline' : 'Neutral'}" label="{!v.slotName}" title="{!v.slotName}" onclick="{!c.showSlotData}"/>
-    
+    <lightning:button variant="{! v.slotKey == v.selectedSlotKey ? 'brand' : 'Neutral'}" class="tabButton" label="{!v.slotName}" title="{!v.slotName}" onclick="{!c.showSlotData}"/>
 </aura:component>

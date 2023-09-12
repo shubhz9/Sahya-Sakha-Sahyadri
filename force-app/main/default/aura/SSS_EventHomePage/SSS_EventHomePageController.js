@@ -12,6 +12,10 @@
     	flow.startFlow("New_Event");
 	},
     fetchEventDetails : function(component, event, helper) {
+        
+        var url = $A.get('$Resource.SSS_Logo');
+        component.set('v.backgroundImageURL', url);
+        
 		var action = component.get("c.fetchEventDetailsAura");
         action.setCallback(this, function(response) {
             var state = response.getState();

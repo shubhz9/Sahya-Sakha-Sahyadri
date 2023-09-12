@@ -133,7 +133,7 @@ global without sharing class SSS_NewEventController {
         
     }
     
-    private static void validateFutureBatches(Trekking_Event__c trekkingEvent, List<Date> futureBatches){
+    private static String validateFutureBatches(Trekking_Event__c trekkingEvent, List<Date> futureBatches){
         
         List<Date> futureBatchDates = new List<Date>();
         for(Date futureBatch : futureBatches){
@@ -147,6 +147,8 @@ global without sharing class SSS_NewEventController {
                 futureBatchDates.add(futureBatch);
             }
         }
+        
+        return errorMessage;
         
     }
 
@@ -191,6 +193,203 @@ global without sharing class SSS_NewEventController {
         
     }
     
+    
+    
+    
+    public static List<NewEventWrapper> createEvents(List<NewEventWrapper> newEvents){
+        
+        List<Trekking_Event__c> trekEventObjs = new List<Trekking_Event__c>();
+        
+        List<NewEventWrapper> eventsToBeCreated = new List<NewEventWrapper>();
+        List<NewEventWrapper> allEvents = new List<NewEventWrapper>();
+        
+        for(NewEventWrapper newEvent : newEvents){
+            allEvents.add(newEvent);
+            if(newEvent.futureBatcheDates != null){
+                List<NewEventWrapper> futureEvents = prepareFutureEvents(newEvent); 
+                if(futureEvents != null && !futureEvents.isEmpty()){
+			 		allEvents.addAll(futureEvents);
+                }
+            }
+        }
+        
+        validateEvents(allEvents);
+        for(NewEventWrapper newEvent : allEvents){
+            
+            if(String.isBlank(newEvent.errorMsg)){
+                eventsToBeCreated.add(newEvent);
+            }
+            
+        }
+        
+        for(NewEventWrapper newEvent : eventsToBeCreated){
+            
+            Trekking_Event__c newTrekkingEvent = newEvent.trekkingEvent;
+            newTrekkingEvent.Batch_Size__c = newTrekkingEvent.Batch_Size__c == null ? 20 : newTrekkingEvent.Batch_Size__c;
+            newTrekkingEvent.Grade__c = String.isBlank(newTrekkingEvent.Grade__c) ? 'Easy' : newTrekkingEvent.Grade__c;
+            newTrekkingEvent.Event_Key__c = SSS_Utility.prepareEventKey(newEvent.trekkingEvent, newEvent.destinations);
+            
+            trekEventObjs.add(newTrekkingEvent);
+            
+        }
+        Database.SaveResult[] results = Database.insert(trekEventObjs, false);
+        processSaveResult(results, eventsToBeCreated, 'TREK_EVENT');
+        
+        List<Destination__c> finalList = new List<Destination__c>();
+        for(NewEventWrapper newEvent : eventsToBeCreated){
+            
+            if(newEvent.noOfDestinations != 0 && newEvent.trekkingEvent.Id != null){
+                for(Destination__c dest: newEvent.destinations){
+                    dest.Trekking_Event__c = newEvent.trekkingEvent.Id;
+                    finalList.add(dest);
+                }
+            }
+            
+        }
+        Database.SaveResult[] resultsDest = Database.insert(finalList, false);
+        processSaveResult(results, eventsToBeCreated, 'DEST');
+        
+        return allEvents;
+        
+    }
+    
+    public static void processSaveResult(Database.SaveResult[] results, List<NewEventWrapper> eventsToBeCreated, String obj){
+        
+        String errorMsg = '';
+        for(Database.SaveResult result : results){
+            if(result.getErrors() != null){
+                for(Database.Error err : result.getErrors()) {
+                    errorMsg = errorMsg + err.getMessage();
+                }
+            }
+        }
+        
+        if(String.isBlank(errorMsg)){
+            return;
+        }
+        
+        for(NewEventWrapper event : eventsToBeCreated){
+            
+            if('TREK_EVENT'.equalsIgnoreCase(obj) && event.trekkingEvent.Id == null){
+                event.errorMsg = event.errorMsg + errorMsg;
+            }
+            if('DEST'.equalsIgnoreCase(obj)){
+                for(Destination__c dest : event.Destinations){
+                    if(dest.id == null){
+                        event.errorMsg = event.errorMsg + errorMsg;
+                        break;
+                    }
+                }
+            }
+            
+        }
+        
+    }
+    
+    public static List<NewEventWrapper> prepareFutureEvents(NewEventWrapper newEvent){
+        
+        List<NewEventWrapper> futureTrekEvents = new List<NewEventWrapper>();
+        List<Trekking_Event__c> futureEvents = new List<Trekking_Event__c>();
+        Map<Integer, Trekking_Event__c> nextBatchEventTimeMap = new Map<Integer, Trekking_Event__c>();
+        
+        String valErrMsg = validateFutureBatches(newEvent.trekkingEvent, newEvent.futureBatcheDates);
+        
+        if(String.isNotBlank(valErrMsg)){
+            newEvent.errorMsg = newEvent.errorMsg + valErrMsg;
+            return futureTrekEvents;
+        }
+        
+        Trekking_Event__c mainEvent = newEvent.trekkingEvent;
+        Date mainEventStartDate = Date.newInstance(mainEvent.Start_time__c.year(), mainEvent.Start_time__c.month(), mainEvent.Start_time__c.day());
+        
+        for(Date futureBatchDT : newEvent.futureBatcheDates){
+            
+            if(futureBatchDT == null){
+                continue;
+            }
+            
+           	Integer daysDiffBetwMainEvent = mainEventStartDate.daysBetween(futureBatchDT);
+            
+            Trekking_Event__c eventFutureBatch = mainEvent.clone();
+            eventFutureBatch.id = null;
+            eventFutureBatch.Start_time__c = mainEvent.Start_time__c.addDays(daysDiffBetwMainEvent);
+            eventFutureBatch.End_Time__c = mainEvent.End_Time__c.addDays(daysDiffBetwMainEvent);
+            nextBatchEventTimeMap.put(daysDiffBetwMainEvent, eventFutureBatch);
+            
+        }
+            
+        for(Integer daysDiffBetwMainEvent : nextBatchEventTimeMap.keySet()){
+            
+            NewEventWrapper newEventWrapper = new NewEventWrapper();
+        	List<Destination__c> futureEventDestinations = new List<Destination__c>();
+            for(Destination__c destination : newEvent.destinations){
+                
+                Destination__c futureDestination = destination.clone();
+                futureDestination.id = null;
+                futureDestination.Visiting_Date__c = destination.Visiting_Date__c.addDays(daysDiffBetwMainEvent);
+                futureEventDestinations.add(futureDestination);
+                
+            }
+            
+            newEventWrapper.trekkingEvent = nextBatchEventTimeMap.get(daysDiffBetwMainEvent);
+            newEventWrapper.destinations = futureEventDestinations;
+            newEventWrapper.noOfDestinations = futureEventDestinations?.size();
+            newEventWrapper.trekDelegateId = newEvent.trekDelegateId;
+            
+            futureTrekEvents.add(newEventWrapper);
+            
+        }
+        
+        return futureTrekEvents;
+        
+    }
+    
+    public static void validateEvents(List<NewEventWrapper> newEvents){
+        
+        List<String> eventKeys = new List<String>();
+        List<String> trekOrgs = new List<String>();
+        for(NewEventWrapper newEvent : newEvents){
+            
+        	String eventKey = SSS_Utility.prepareEventKey(newEvent.trekkingEvent, newEvent.destinations);
+            trekOrgs.add(newEvent.trekkingEvent.Organization__c);
+            if(eventKeys.contains(eventKey)){
+                newEvent.errorMsg = newEvent.errorMsg + 'Event \'' + newEvent.trekkingEvent.name + '\' already exists for the organization for selected dates!';
+            }else{
+                eventKeys.add(eventKey);
+                newEvent.trekkingEvent.Event_Key__c = eventKey;
+            }
+            
+            if(newEvent.trekkingEvent.Start_time__c == null || newEvent.trekkingEvent.End_Time__c == null || newEvent.trekkingEvent.End_Time__c.date() < newEvent.trekkingEvent.Start_time__c.date()){
+                newEvent.errorMsg = newEvent.errorMsg + 'Please select valid start and end dates. Dates cannot be blank and end date must be greater than or equal to start date.';
+            }
+            
+            for(Destination__c destination : newEvent.destinations){
+                
+                if(destination.Visiting_Date__c.date() < newEvent.trekkingEvent.Start_time__c.date() || destination.Visiting_Date__c.date() > newEvent.trekkingEvent.End_Time__c.date()){
+                    newEvent.errorMsg = newEvent.errorMsg + 'Location visit date should be between event start and end date - ' + newEvent.trekkingEvent.name + ':' + destination.Location__c;
+                }
+                
+            }
+            
+        }
+        
+        List<Trekking_Event__c> existingEvents = [SELECT id, Event_Key__c, Organization__c, name FROM Trekking_Event__c
+                                                  WHERE Event_Key__c = :eventKeys
+                                                  	AND Organization__c = :trekOrgs];
+        
+        for(NewEventWrapper newEvent : newEvents){
+            
+            for(Trekking_Event__c event : existingEvents){
+                if(newEvent.trekkingEvent.Event_Key__c == event.Event_Key__c && newEvent.trekkingEvent.Organization__c == event.Organization__c){
+                	newEvent.errorMsg = newEvent.errorMsg + 'Event \'' + newEvent.trekkingEvent.name + '\' already exists for the organization for selected dates!';
+                	break;
+                }
+            }
+            
+        }
+        
+    }
+    
     global class NewEventWrapper {
         @InvocableVariable
         global Integer noOfDestinations;
@@ -204,6 +403,13 @@ global without sharing class SSS_NewEventController {
         global id currentEventId;
         @InvocableVariable
         global Boolean validateEventData;
+        public String errorMsg;
+        public String trekDelegateId;
+        
+        public NewEventWrapper(){
+            errorMsg = '';
+        }
+        
     }
     
     global class NewEventResponseWrapper {
